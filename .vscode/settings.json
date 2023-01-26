@@ -1,0 +1,11 @@
+{
+	"nuxt.isNuxtApp": false,
+	"files.associations": {
+		"header.h": "c",
+		"config.h": "c",
+		"binary.h": "c",
+		"signal.h": "c",
+		"redirection.h": "c",
+		"class.h": "c"
+	}
+}
