@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 15:49:59 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 22:55:43 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/27 01:44:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_string	*get_variable_name(t_string *string, int i)
 	}
 	else
 	{
-		while (i < length && (isalpha(str[i]) || str[i] == '_'))
+		while (i < length && (ft_isalpha(str[i]) || str[i] == '_'))
 		{
 			append_char(&variable, str[i]);
 			i++;
