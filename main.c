@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 22:44:38 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/27 01:42:39 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	void_args(int argc, char **argv, char **envp)
 void	call_prompt(int key)
 {
 	(void)key;
-	rl_replace_line("", 0);
+	//rl_replace_line("", 0);
 	rl_on_new_line();
 	write(1, "\n", 1);
 	rl_redisplay();

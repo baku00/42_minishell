@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:34:26 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 22:44:46 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/27 01:42:43 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	free_all(void)
 {
-	rl_clear_history();
+	//rl_clear_history();
 	clear_exit_manager();
 }
