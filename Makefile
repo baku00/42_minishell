@@ -88,5 +88,7 @@ macos: fclean
 	git commit -m "Save for macos"
 	git push
 
-mac: all
+mac:
+	git pull
+	make all
 	./minishell
