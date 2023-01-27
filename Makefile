@@ -83,7 +83,7 @@ fclean: clean
 
 re: fclean all
 
-macos:
+macos: fclean
 	git add --all
 	git commit -m "Save for macos"
 	git push

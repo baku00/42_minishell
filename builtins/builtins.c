@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:00:20 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/22 22:35:47 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/27 01:48:18 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	exec_builtins(t_cmd *cmd, t_env *env)
 {
 	int	builtin;
 	int	fd;
+
+	printf("EXEC BUILTINS: %s\n", get_string(cmd->bin));
 
 	fd = cmd->fd_out;
 	if (cmd->next)
