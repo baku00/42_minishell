@@ -82,3 +82,8 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
+
+macos:
+	git add --all
+	git commit -m "Save for macos"
+	git push
