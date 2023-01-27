@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/26 17:38:36 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/27 01:11:11 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	parse_string_separator(t_env *env, t_string **cmd, t_string *line, int *i)
 
 int	skip_space(t_string *line, int i)
 {
-	while (isspace(line->value[i]))
+	while (line->value[i] == ' ')
 		i++;
 	return (i);
 }

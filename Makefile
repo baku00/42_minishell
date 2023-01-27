@@ -54,9 +54,13 @@ LIBFT = libft/libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra #-Werror
 
-INCLUDES = -I. -L/usr/local/lib -I/usr/local/include -lreadline
+INCLUDES = -I. -lreadline
+
+ifeq ($(UNAME), Linux)
+	INCLUDES = -I. -L/usr/local/lib -I/usr/local/include -lreadline
+endif
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
