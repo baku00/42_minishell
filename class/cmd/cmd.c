@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:50:05 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:12:35 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:44:41 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	append_current_arg(t_cmd **cmd, t_string *args)
 	if (args->length)
 	{
 		if (!(*cmd)->bin)
+		{
+			string_go_to_lower(&args);
 			(*cmd)->bin = string_dup(args);
+		}
 		append_args(&(*cmd)->args, args);
 	}
 }
@@ -52,6 +55,8 @@ t_cmd	*init_cmd(t_cmd *prev)
 	cmd->info = NULL;
 	cmd->next = NULL;
 	cmd->prev = prev;
+	if (prev)
+		prev->next = cmd;
 	return (cmd);
 }
 
@@ -82,7 +87,15 @@ t_cmd	*create_cmd(t_cmd *prev, t_string *line, int i, t_env *env)
 		if (is_string_separator(line->value[i]))
 		{
 			if (!parse_string(env, &current_arg, line, &i))
+			{
+				while (prev && prev->prev)
+					prev = prev->prev;
+				if (prev)
+					free_all_cmd(prev);
+				else
+					free_all_cmd(cmd);
 				return (NULL);
+			}
 		}
 		else if (is_redirection(line->value[i], line->value[i + 1]))
 		{

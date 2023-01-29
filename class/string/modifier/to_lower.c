@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   to_lower.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 01:52:46 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 04:31:46 by my_name_         ###   ########.fr       */
+/*   Created: 2023/01/29 04:22:19 by my_name_          #+#    #+#             */
+/*   Updated: 2023/01/29 04:27:32 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src.h"
+#include "../string.h"
 
-int	is_space(t_cmd **cmd, t_string **current_arg, t_string *line, int i)
+t_string	*string_to_lower(t_string *string)
 {
-	if (!(*cmd)->bin)
-	{
-		string_go_to_lower(current_arg);
-		(*cmd)->bin = string_dup(*current_arg);
-	}
-	if (!append_full_args(&(*cmd)->args, current_arg))
-		return (-1);
-	return (skip_space(line, i));
+	t_string	*lower;
+
+	if (!string)
+		return (NULL);
+	lower = string_dup(string);
+	string_go_to_lower(&lower);
+	return (lower);
 }
 
-int	skip_space(t_string *line, int i)
+void	string_go_to_lower(t_string **string)
 {
-	while (line->value[i] == ' ')
+	int	i;
+
+	if (!*string)
+		return ;
+	i = 0;
+	while (i < (*string)->length)
+	{
+		(*string)->value[i] = ft_tolower((*string)->value[i]);
 		i++;
-	return (i);
+	}
 }

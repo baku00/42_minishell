@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 02:04:10 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:11:27 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 05:20:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 
 t_cmd	*check_error(t_cmd *cmd)
 {
+	int	is_in_or_out;
+	int	is_out;
+	int	is_pipe;
+
 	while (cmd)
 	{
-		if (is_redirection_in_or_out(cmd->redirection_id) || \
-		is_redirection_pipe(cmd->redirection_id))
+		is_in_or_out = is_redirection_in_or_out(cmd->redirection_id);
+		is_out = is_redirection_out(cmd->redirection_id);
+		is_pipe = is_redirection_pipe(cmd->redirection_id);
+		if (is_in_or_out || is_pipe)
 		{
 			if (!cmd->next)
+				return (cmd);
+			else if (cmd->next && !cmd->bin && is_out)
 				return (cmd);
 			else if (cmd->prev && !((t_cmd *) cmd->prev)->bin)
 				return (cmd);

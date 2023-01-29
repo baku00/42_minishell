@@ -15,6 +15,7 @@ SRCS = main.c \
 		class/string/extract_string.c \
 		class/string/parser.c \
 		class/string/remove.c \
+		class/string/modifier/to_lower.c \
 		class/string/str_replace.c \
 		class/redirection/redirection_type.c \
 		class/redirection/fd_manager.c \

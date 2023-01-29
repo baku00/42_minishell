@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 18:41:17 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:00:12 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:25:38 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,6 @@ int			equals_string_to_char(t_string *str, char *c);
 int			append_front_string(t_string **string, t_string *append);
 int			remove_char(t_string **string, int i);
 void		*parse_error(int parse_string);
+t_string	*string_to_lower(t_string *string);
+void		string_go_to_lower(t_string **string);
 #endif

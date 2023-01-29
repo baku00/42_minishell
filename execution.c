@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 19:51:42 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 05:08:28 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,20 +108,23 @@ static void	execute_cmd(t_cmd *cmd, t_env *env)
 	(void) pid;
 	while (cmd)
 	{
-		if (is_builtins(cmd->bin))
-			exec_builtins(cmd, env);
-		else
+		if (get_string_length(cmd->bin))
 		{
-			pid = fork();
-			if (pid == 0)
-				exec_bin(cmd, env);
+			if (is_builtins(cmd->bin))
+				exec_builtins(cmd, env);
 			else
 			{
-				if (cmd->fd_out != STDOUT_FILENO)
-					close(cmd->fd_out);
-				if (cmd->fd_in != STDIN_FILENO)
-					close(cmd->fd_in);
-				cmd->pid = pid;
+				pid = fork();
+				if (pid == 0)
+					exec_bin(cmd, env);
+				else
+				{
+					if (cmd->fd_out != STDOUT_FILENO)
+						close(cmd->fd_out);
+					if (cmd->fd_in != STDIN_FILENO)
+						close(cmd->fd_in);
+					cmd->pid = pid;
+				}
 			}
 		}
 		if (cmd->next)
@@ -148,11 +151,22 @@ void	execute(void *minishell_ptr, void *line, void *env)
 	get_minishell_info_cmd(minishell), get_minishell_info_cmd_args(minishell));
 	cmd_error = check_error(get_minishell_info_cmd(minishell)->first);
 	if (cmd_error)
-		return (print_error_redirection(cmd_error));
+	{
+		print_error_redirection(cmd_error);
+		free_all_cmd(get_info_first(minishell->cmd));
+		minishell->cmd = NULL;
+		return ;
+	}
 	minishell->configured = \
 	make_redirection(NULL, get_minishell_info_cmd(minishell)->first, &success);
 	if (success)
+	{
+		free_all_cmd(get_info_first(minishell->cmd));
+		minishell->cmd = NULL;
+		free_all_cmd(get_info_first(minishell->configured));
+		minishell->configured = NULL;
 		return (print_redirection_error(success));
+	}
 	make_info(minishell->configured, get_minishell_info_configured(minishell), \
 	get_minishell_info_configured_args(minishell));
 	execute_cmd(minishell->configured, env);

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 22:31:53 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/23 16:39:02 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 05:03:30 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ void	exec_unset(t_env *env, t_args *args)
 {
 	t_string	*var_name;
 
+	var_name = NULL;
 	while (args)
 	{
 		var_name = get_variable_name(args->string, 0);
 		if (!equals_string(var_name, args->string))
 		{
-			printf("Nom invalide: (%s)\n", get_string(args->string));
+			ft_putstr_fd("Nom invalide: ", STDERR_FILENO);
+			ft_putendl_fd(get_string(args->string), STDERR_FILENO);
 			if (!args->next)
 				break ;
 			args = args->next;
@@ -41,4 +43,6 @@ void	exec_unset(t_env *env, t_args *args)
 			break ;
 		args = args->next;
 	}
+	if (var_name)
+		free_string(var_name);
 }

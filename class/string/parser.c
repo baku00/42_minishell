@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:56:25 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:00:04 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 04:48:38 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	parse_string_separator(t_env *env, t_string **cmd, t_string *line, int *i)
 	if (!extracted)
 		return (ERROR_MEMORY);
 	if (!line->value[*i])
+	{
+		free_string(extracted);
 		return (ERROR_NOT_CLOSE_QUOTE);
+	}
 	if (is_guillemet(line->value[*i]))
 		replace_all_variables(env, &extracted);
 	append_string(cmd, extracted);
