@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 18:27:02 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 23:21:21 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 02:09:36 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,55 @@ void	exec_binary(t_cmd *cmd, t_env *env)
 	}
 	else
 		finish_binary(cmd, pid);
+}
+
+void	exec_bin(t_cmd *cmd, t_env *env)
+{
+	char	*path;
+
+	if (!is_redirection_pipe(cmd->redirection_id))
+	{
+		if (cmd->fd_in != STDIN_FILENO)
+		{
+			dup2(cmd->fd_in, STDIN_FILENO);
+			close(cmd->fd_in);
+		}
+		if (cmd->fd_out != STDOUT_FILENO)
+		{
+			dup2(cmd->fd_out, STDOUT_FILENO);
+			close(cmd->fd_out);
+		}
+	}
+	else
+	{
+		if (cmd->prev && \
+		is_redirection_pipe(((t_cmd *)cmd->prev)->redirection_id))
+		{
+			dup2(cmd->fd_in, STDIN_FILENO);
+		}
+		dup2(cmd->fd_out, STDOUT_FILENO);
+		close(cmd->fd_out);
+		close(cmd->fd_in);
+	}
+	path = get_bin_path(get_string(cmd->bin), env);
+	if (!path)
+	{
+		ft_putstr_fd(get_string(cmd->bin), STDERR_FILENO);
+		ft_putendl_fd(": Commande introuvable", STDERR_FILENO);
+		while (cmd->prev)
+		{
+			while (((t_args *)cmd->args)->prev)
+				cmd->args = ((t_args *)cmd->args)->prev;
+			cmd = cmd->prev;
+		}
+		free_all_cmd(cmd);
+	}
+	else
+	{
+		execve(path, list_to_array(cmd->args), env_to_array(env));
+		ft_putstr_fd("Error: ", STDERR_FILENO);
+		ft_putstr_fd(get_string(cmd->bin), STDERR_FILENO);
+		perror(" ");
+	}
+	exit(127);
 }

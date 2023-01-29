@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:19:08 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 00:10:08 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 22:26:18 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	exec_export(t_cmd *cmd, t_env *env)
 		print_export(env, fd);
 	else
 	{
-		appended = append_var(&env, ((t_args *)((t_args *)cmd->args)->next)->string);
+		appended = \
+		append_var(&env, ((t_args *)((t_args *)cmd->args)->next)->string);
 		print_error(appended);
 	}
 }

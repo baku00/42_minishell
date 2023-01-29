@@ -6,6 +6,20 @@
 		"binary.h": "c",
 		"signal.h": "c",
 		"redirection.h": "c",
-		"class.h": "c"
+		"class.h": "c",
+		"types.h": "c",
+		"dollars.h": "c",
+		"info.h": "c",
+		"arg.h": "c",
+		"exit.h": "c",
+		"string.h": "c",
+		"includes.h": "c",
+		"libraries.h": "c",
+		"libft.h": "c",
+		"main.h": "c",
+		"stdlib.h": "c",
+		"stddef.h": "c",
+		"minishell.h": "c",
+		"cmd.h": "c"
 	}
 }

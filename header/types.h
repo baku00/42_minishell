@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 16:18:32 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/26 17:03:12 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 22:17:28 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ typedef struct s_info
 	void	*first;
 	void	*last;
 }	t_info;
+
+typedef struct s_infos
+{
+	t_info	*info_env;
+	t_info	*info_cmd;
+	t_info	*info_cmd_args;
+	t_info	*info_configured;
+	t_info	*info_configured_args;
+}	t_infos;
 
 typedef struct s_string
 {
@@ -77,5 +86,24 @@ typedef struct s_env
 	void			*next;
 	void			*prev;
 }	t_env;
+
+typedef struct s_config
+{
+	int	exit;
+}	t_config;
+
+typedef struct s_minishell
+{
+	t_env		*env;
+	t_cmd		*cmd;
+	t_cmd		*configured;
+	t_config	*config;
+	t_infos		*infos;
+	t_string	*line;
+}	t_minishell;
+
+void	args_free_all(t_args *args);
+void	free_args(t_args *args);
+void	cmd_free_all(t_cmd *cmd);
 
 #endif

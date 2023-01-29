@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:00:20 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 01:49:33 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:35:53 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	is_builtin(t_string *cmd, char *builtin, int id)
 	if (!string)
 		return (-1);
 	if (equals_string(cmd, string))
+	{
+		free_string(string);
 		return (id);
+	}
 	free_string(string);
 	return (0);
 }

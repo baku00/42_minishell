@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 18:56:46 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 22:46:06 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 01:49:35 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,7 @@
 # include "dollars/dollars.h"
 # include "info/info.h"
 # include "arg/arg.h"
+# include "minishell/minishell.h"
+# include "file/file.h"
+# include "cmd/cmd.h"
 #endif

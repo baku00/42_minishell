@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 20:49:29 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/26 17:24:16 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 02:19:35 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,12 @@ t_string	*get(char *envp, int i, int length)
 	return (string);
 }
 
-t_string	*get_env_value(t_env *env)
-{
-	return (env->value);
-}
-
 t_string	*get_env_key(t_env *env)
 {
 	return (env->key);
 }
 
-t_env	*get_env_from_key(t_env *env, t_string *key)
+t_env	*get_env_from_key(t_env *env, t_string *key, int have_to_free)
 {
 	if (!env || !key)
 		return (NULL);
@@ -45,8 +40,14 @@ t_env	*get_env_from_key(t_env *env, t_string *key)
 		if (!equals_string(env->key, key))
 			env = env->next;
 		else
+		{
+			if (have_to_free)
+				free_string(key);
 			return (env);
+		}
 	}
+	if (have_to_free)
+		free_string(key);
 	return (NULL);
 }
 
@@ -61,17 +62,7 @@ t_env	*get_env_from_char_key(t_env *env, char *key_char, int have_to_free)
 		free(key_char);
 	if (!key)
 		return (NULL);
-	return (get_env_from_key(env, key));
-}
-
-t_string	*get_value_env_from_key(t_env *env, t_string *key)
-{
-	t_env	*result;
-
-	result = get_env_from_key(env, key);
-	if (!result)
-		return (create_string(""));
-	return (result->value);
+	return (get_env_from_key(env, key, 1));
 }
 
 t_string	*get_entry(t_env *env)

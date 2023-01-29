@@ -6,14 +6,15 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:34:26 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 01:42:43 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 22:21:23 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
+//rl_clear_history();
 void	free_all(void)
 {
-	//rl_clear_history();
+	rl_clear_history();
 	clear_exit_manager();
 }

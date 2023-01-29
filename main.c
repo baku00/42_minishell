@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 01:42:39 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 00:34:14 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,10 @@ static void	void_args(int argc, char **argv, char **envp)
 	(void) envp;
 }
 
-void	call_prompt(int key)
+static void	init_main(int argc, char **argv, char **envp)
 {
-	(void)key;
-	//rl_replace_line("", 0);
-	rl_on_new_line();
-	write(1, "\n", 1);
-	rl_redisplay();
-}
-
-void	pass(int key)
-{
-	(void)key;
-	rl_on_new_line();
-}
-
-void	use_signal(void)
-{
-	signal(SIGQUIT, pass);
-	signal(SIGINT, call_prompt);
+	use_signal();
+	void_args(argc, argv, envp);
 }
 
 static t_string	*prompt(char *display)
@@ -62,36 +47,57 @@ static t_string	*prompt(char *display)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_string	*line;
-	t_info		env_info;
-	t_env		*env;
+	t_minishell	*minishell;
+	t_info		*info;
 
-	g_status = 0;
-	env_info = create_info(NULL, NULL);
-	env = generate_env(NULL, &env_info, envp, 0);
-	if (!env)
+	init_main(argc, argv, envp);
+	minishell = create_minishell();
+	if (!minishell)
 		return (1);
-	create_exit_manager();
-	if (have_to_exit())
-		return (1);
-	env = get_info_first(env);
-	void_args(argc, argv, envp);
-	while (!have_to_exit())
+	info = get_minishell_info_env(minishell);
+	minishell->env = generate_env(NULL, info, envp, 0);
+	while (1)
 	{
-		env = get_info_first(env);
-		use_signal();
-		line = prompt("Minishell: ");
-		if (!line)
-		{
-			set_have_to_exit(1);
+		minishell->line = prompt("Minishell: ");
+		if (!minishell->line || equals_string_to_char(minishell->line, "exit"))
 			break ;
-		}
-		if (equals_string(line, g_exit_manager.string))
-			set_have_to_exit(1);
-		else if (line->length)
-			execute(line, env);
-		free_string(line);
+		else if (get_string_length(minishell->line))
+			execute(minishell, minishell->line, minishell->env);
+		free_string(minishell->line);
 	}
-	free_all();
+	free_minishell(minishell);
 	return (0);
 }
+
+	// if (1 == 0)
+	// {
+	// 	t_string	*line;
+	// 	t_info		*env_info;
+	// 	t_env		*env;
+
+	// 	g_status = 0;
+	// 	env_info = create_info();
+	// 	env = generate_env(NULL, env_info, envp, 0);
+	// 	if (!env)
+	// 		return (1);
+	// 	create_exit_manager();
+	// 	if (have_to_exit())
+	// 		return (1);
+	// 	env = get_info_first(env);
+	// 	void_args(argc, argv, envp);
+	// 	while (1)
+	// 	{
+	// 		env = get_info_first(env);
+	// 		use_signal();
+	// 		line = prompt("Minishell: ");
+	// 		if (!line)
+	// 			break ;
+	// 		if (equals_string_to_char(line, "exit"))
+	// 			break ;
+	// 		else if (line->length)
+	// 			execute(minishell, line, env);
+	// 		free_string(line);
+	// 	}
+	// 	env_free_all(env);
+	// 	free_all();
+	// }

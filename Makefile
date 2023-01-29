@@ -4,6 +4,8 @@ SRCS = main.c \
 		execution.c \
 		free.c \
 		src/check_access.c \
+		src/utils.c \
+		src/minishell/signal.c \
 		class/string/compare_string.c \
 		class/string/get_string.c \
 		class/string/string.c \
@@ -11,6 +13,7 @@ SRCS = main.c \
 		class/string/append.c \
 		class/string/print.c \
 		class/string/extract_string.c \
+		class/string/parser.c \
 		class/string/remove.c \
 		class/string/str_replace.c \
 		class/redirection/redirection_type.c \
@@ -20,15 +23,28 @@ SRCS = main.c \
 		class/redirection/detect_redirection.c \
 		class/redirection/redirection_error.c \
 		class/redirection/get_redirection_from_id.c \
+		class/redirection/detect/redirection_in.c \
+		class/redirection/detect/redirection_out.c \
+		class/minishell/get_minishell_info.c \
+		class/minishell/get_minishell.c \
+		class/minishell/minishell_infos.c \
+		class/minishell/minishell.c \
+		class/cmd/cmd.c \
+		class/cmd/free.c \
+		class/cmd/check_error.c \
+		class/file/file.c \
 		class/exit/exit.c \
 		class/info/info.c \
 		class/info/get_info.c \
 		class/arg/arg.c \
+		class/arg/args_dup.c \
+		class/arg/free.c \
 		class/arg/list_to_array.c \
 		builtins/builtins.c \
 		builtins/env/env.c \
 		builtins/env/free.c \
 		builtins/env/get_env.c \
+		builtins/env/get_env_value.c \
 		builtins/env/print_env.c \
 		builtins/env/exec_env.c \
 		builtins/env/sort_env.c \
@@ -46,7 +62,9 @@ SRCS = main.c \
 		builtins/unset/exec_unset.c \
 		builtins/cd/cd.c \
 		bin/binary.c \
-		class/dollars/dollars.c
+		bin/get_binary.c \
+		class/dollars/dollars.c \
+		class/dollars/get_dollars.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -54,7 +72,8 @@ LIBFT = libft/libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra #-Werror
+CFLAGS = -Wall -Wextra -Werror
+CFLAGS += -fsanitize=address -fsanitize=leak
 
 INCLUDES = -I. -lreadline
 

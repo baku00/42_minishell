@@ -6,11 +6,17 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:13:13 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/26 17:18:09 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 02:18:26 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirection.h"
+
+void	print_error_redirection(t_cmd *cmd_error)
+{
+	printf("Erreur de syntaxe près du symbole inattendu: '%s'\n", \
+	get_redirection_from_id(cmd_error->redirection_id));
+}
 
 void	print_redirection_error(int error)
 {

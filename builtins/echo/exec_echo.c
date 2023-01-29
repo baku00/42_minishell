@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:29:46 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 23:11:21 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 16:27:27 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 static void	show_empty_args(int fd)
 {
 	ft_putchar_fd('\n', fd);
+}
+
+static void	echo_print_args(t_args *args, int fd)
+{
+	while (args)
+	{
+		ft_putstr_fd(get_string(args->string), fd);
+		if (args->next)
+		{
+			args = args->next;
+			ft_putchar_fd(' ', fd);
+		}
+		else
+			break ;
+	}
 }
 
 void	exec_echo(t_args *args, int fd)
@@ -33,17 +48,7 @@ void	exec_echo(t_args *args, int fd)
 		else
 			args = args->next;
 	}
-	while (args)
-	{
-		ft_putstr_fd(get_string(args->string), fd);
-		if (args->next)
-		{
-			args = args->next;
-			ft_putchar_fd(' ', fd);
-		}
-		else
-			break ;
-	}
+	echo_print_args(args, fd);
 	if (n)
 		ft_putchar_fd('\n', fd);
 }

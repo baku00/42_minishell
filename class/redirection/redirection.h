@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 23:00:53 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/26 17:14:04 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/28 02:15:36 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,11 @@ int		is_redirection_in_or_out(int r_id);
 int		is_redirection_pipe(int r_id);
 char	*get_redirection_from_id(int r_id);
 void	print_redirection_error(int error);
+void	print_error_redirection(t_cmd *cmd_error);
+int		is_redirection_input(int r_id);
+int		is_redirection_heredoc(int r_id);
+int		is_redirection_in(int r_id);
+int		is_redirection_output(int r_id);
+int		is_redirection_append(int r_id);
+int		is_redirection_out(int r_id);
 #endif
