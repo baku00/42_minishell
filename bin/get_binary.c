@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 02:05:42 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 00:15:06 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 22:37:44 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_bin_path(char *bin, t_env *env)
 	int		i;
 	t_env	*env_from_char;
 
-	if (bin[0] == '/')
+	if (bin[0] == '/' || (bin[0] == '.' && bin[1] == '/'))
 	{
 		if (check_access(bin) != IS_FILE)
 			return (NULL);

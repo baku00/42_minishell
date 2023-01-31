@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.h                                            :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 22:54:41 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/30 16:28:25 by my_name_         ###   ########.fr       */
+/*   Created: 2023/01/30 21:01:44 by my_name_          #+#    #+#             */
+/*   Updated: 2023/01/30 21:02:00 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UNSET_H
-# define UNSET_H
-# include "../builtins.h"
+#include "../redirection.h"
 
-void	exec_unset(t_env **env, t_args *args);
-void	print_invalid_params(t_string *param);
-#endif
+void	call_heredoc(t_cmd *cmd)
+{
+	t_string	*line;
+
+	line = NULL;
+	while (1)
+	{
+		line = prompt("heredoc> ");
+		if (!line)
+			break ;
+		if (equals_string(line, cmd->heredoc_file))
+			break ;
+		ft_putendl_fd(line->value, cmd->fd_in);
+	}
+	free_string(line);
+}

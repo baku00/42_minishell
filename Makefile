@@ -18,6 +18,7 @@ SRCS = main.c \
 		class/string/modifier/to_lower.c \
 		class/string/str_replace.c \
 		class/redirection/redirection_type.c \
+		class/redirection/types/heredoc.c \
 		class/redirection/fd_manager.c \
 		class/redirection/redirection.c \
 		class/redirection/redirect.c \
@@ -61,8 +62,10 @@ SRCS = main.c \
 		builtins/export/print_export.c \
 		builtins/export/append.c \
 		builtins/unset/exec_unset.c \
+		builtins/unset/print_error.c \
 		builtins/cd/cd.c \
 		bin/binary.c \
+		bin/binary_error.c \
 		bin/get_binary.c \
 		class/dollars/dollars.c \
 		class/dollars/get_dollars.c

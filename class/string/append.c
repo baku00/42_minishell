@@ -6,15 +6,15 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 23:08:58 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 22:06:03 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 22:54:50 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string.h"
 
-static char *char_to_string(char c)
+static char	*char_to_string(char c)
 {
-	char *str;
+	char	*str;
 
 	str = ft_calloc(sizeof(char), 2);
 	if (!str)
@@ -23,9 +23,9 @@ static char *char_to_string(char c)
 	return (str);
 }
 
-int append_char(t_string **string, char c)
+int	append_char(t_string **string, char c)
 {
-	char *char_str;
+	char	*char_str;
 
 	char_str = char_to_string(c);
 	if (!char_str || !(*string))
@@ -38,10 +38,10 @@ int append_char(t_string **string, char c)
 	return (1);
 }
 
-int append_front_char(t_string **string, char c)
+int	append_front_char(t_string **string, char c)
 {
-	char *char_str;
-	char *str;
+	char	*char_str;
+	char	*str;
 
 	char_str = char_to_string(c);
 	if (!char_str || !(*string))
@@ -56,7 +56,7 @@ int append_front_char(t_string **string, char c)
 	return (1);
 }
 
-int append_string(t_string **string, t_string *append)
+int	append_string(t_string **string, t_string *append)
 {
 	if (!append || !(*string))
 		return (0);
@@ -67,9 +67,9 @@ int append_string(t_string **string, t_string *append)
 	return (1);
 }
 
-int append_front_string(t_string **string, t_string *append)
+int	append_front_string(t_string **string, t_string *append)
 {
-	t_string *duplicate;
+	t_string	*duplicate;
 
 	if (!append || !(*string))
 		return (0);

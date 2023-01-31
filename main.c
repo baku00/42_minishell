@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 00:34:14 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:34:33 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	init_main(int argc, char **argv, char **envp)
 	void_args(argc, argv, envp);
 }
 
-static t_string	*prompt(char *display)
+t_string	*prompt(char *display)
 {
 	char			*line;
 	t_string		*string;
@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!minishell->line || equals_string_to_char(minishell->line, "exit"))
 			break ;
 		else if (get_string_length(minishell->line))
-			execute(minishell, minishell->line, minishell->env);
+			execute(minishell, minishell->line, (void **) &minishell->env);
 		free_string(minishell->line);
 	}
 	free_minishell(minishell);

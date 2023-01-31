@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:50:44 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 19:51:27 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 05:25:50 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	free_cmd(t_cmd	*cmd)
 		return ;
 	if (cmd->bin)
 		free_string(cmd->bin);
+	if (cmd->heredoc_file)
+		free_string(cmd->heredoc_file);
 	if (cmd->args)
 		args_free_all(cmd->args);
 	free(cmd);

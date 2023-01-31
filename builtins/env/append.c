@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 01:30:26 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 02:15:56 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:55:12 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ void	append_env_first(t_env **env, t_env *new)
 
 void	append_env_last(t_env **env, t_env *new)
 {
-	while ((*env)->next)
-		*env = (*env)->next;
+	*env = get_info_last(*env);
 	(*env)->next = new;
 	new->prev = *env;
-	while ((*env)->prev)
-		*env = (*env)->prev;
+	new->info = (*env)->info;
+	*env = get_info_first(*env);
 	get_info(*env)->last = new;
 	get_info(*env)->length += 1;
 }

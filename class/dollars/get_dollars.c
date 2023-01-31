@@ -6,19 +6,19 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:58:19 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 00:27:49 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/31 00:46:53 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dollars.h"
 
-int get_dollar(t_string *line, int i, t_string **current_arg, t_env *env)
+int	get_dollar(t_string *line, int i, t_string **current_arg, t_env *env)
 {
-	t_string *extracted;
-	t_string *str_itoa;
-	t_string *tmp;
-	char *itoa;
-	int result;
+	t_string	*extracted;
+	t_string	*str_itoa;
+	t_string	*tmp;
+	char		*itoa;
+	int			result;
 
 	extracted = get_variable_name(line, i + 1);
 	if (!extracted->length)

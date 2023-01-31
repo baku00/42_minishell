@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 16:18:32 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 22:17:28 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:53:54 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_cmd
 {
 	t_string	*bin;
 	t_args		*args;
+	t_string	*heredoc_file;
 	int			pid;
 	int			redirection_id;
 	int			type;

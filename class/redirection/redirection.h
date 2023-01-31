@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 23:00:53 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:15:36 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:04:19 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		is_append(char c, char c2);
 int		is_redirection(char c, char c2);
 int		redirection_id(char c, char c2);
 int		redirect_fd(t_cmd **cmd);
-void	execute_fd(int fd, int std);
+void	execute_fd(t_cmd *cmd);
 void	close_fd(int fd, int std);
 int		is_redirection_out(int r_id);
 int		is_redirection_in(int r_id);
@@ -46,4 +46,5 @@ int		is_redirection_in(int r_id);
 int		is_redirection_output(int r_id);
 int		is_redirection_append(int r_id);
 int		is_redirection_out(int r_id);
+void	call_heredoc(t_cmd *cmd);
 #endif

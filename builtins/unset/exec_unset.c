@@ -6,21 +6,24 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 22:31:53 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 05:03:30 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:37:19 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../builtins.h"
 
-void	unset(t_env *env, t_string *var_name)
+void	unset(t_env **env, t_string *var_name)
 {
-	while (env->next && !equals_string(env->key, var_name))
-		env = env->next;
-	if (equals_string(env->key, var_name))
-		remove_env(&env);
+	while ((*env)->next && !equals_string((*env)->key, var_name))
+		(*env) = (*env)->next;
+	if (equals_string((*env)->key, var_name))
+	{
+		remove_env(env);
+		*env = get_info_first(*env);
+	}
 }
 
-void	exec_unset(t_env *env, t_args *args)
+void	exec_unset(t_env **env, t_args *args)
 {
 	t_string	*var_name;
 
@@ -30,15 +33,14 @@ void	exec_unset(t_env *env, t_args *args)
 		var_name = get_variable_name(args->string, 0);
 		if (!equals_string(var_name, args->string))
 		{
-			ft_putstr_fd("Nom invalide: ", STDERR_FILENO);
-			ft_putendl_fd(get_string(args->string), STDERR_FILENO);
+			print_invalid_params(args->string);
 			if (!args->next)
 				break ;
 			args = args->next;
 			continue ;
 		}
 		unset(env, var_name);
-		env = get_info_first(env);
+		*env = get_info_first(*env);
 		if (!args->next)
 			break ;
 		args = args->next;

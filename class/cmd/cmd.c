@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:50:05 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 04:44:41 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:59:23 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_cmd	*init_cmd(t_cmd *prev)
 	cmd->fd_out = STDOUT_FILENO;
 	cmd->error_id = 0;
 	cmd->redirection_id = 0;
+	cmd->heredoc_file = NULL;
 	cmd->info = NULL;
 	cmd->next = NULL;
 	cmd->prev = prev;

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:03:52 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 20:31:50 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:32:23 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 	t_cmd	*configured;
 	int		fd[2];
 
-	configured = init_cmd(NULL);
+	configured = init_cmd(prev);
 	if (prev)
 	{
-		configured->prev = prev;
 		configured->fd_in = cmd->fd_in;
 	}
 	if (cmd)
@@ -92,6 +91,7 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 				if (!redirect_fd(&cmd))
 				{
 					*success = cmd->fd_in;
+					free_cmd(configured);
 					return (NULL);
 				}
 				if (cmd->next)
@@ -103,7 +103,13 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 			{
 				configured->fd_in = cmd->fd_in;
 				if (cmd->prev)
+				{
 					configured->fd_in = ((t_cmd *)cmd->prev)->fd_in;
+					if (((t_cmd *)cmd->prev)->redirection_id == REDIRECTION_HEREDOC)
+					{
+						configured->heredoc_file = string_dup(cmd->bin);
+					}
+				}
 			}
 			if (is_redirection_out(cmd->redirection_id))
 			{
@@ -130,13 +136,10 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 				if (cmd->prev)
 					configured->fd_out = ((t_cmd *)cmd->prev)->fd_out;
 			}
-			if (!is_redirection_in(cmd->redirection_id) && !is_redirection_out(cmd->redirection_id))
-			{
-				if (cmd->next)
-					cmd = cmd->next;
-				else
-					break ;
-			}
+			if (cmd->next && !is_redirection_pipe(cmd->redirection_id))
+				cmd = cmd->next;
+			else
+				break ;
 		}
 		if (cmd->next)
 		{
@@ -145,6 +148,15 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 			configured->redirection_id = cmd->redirection_id;
 			((t_cmd *)cmd->next)->fd_in = fd[0];
 			configured->next = make_redirection(configured, cmd->next, success);
+			if (!configured->next)
+			{
+				while (configured->prev)
+				{
+					configured = configured->prev;
+					free_cmd(configured->next);
+				}
+				return (NULL);
+			}
 		}
 	}
 	return (configured);

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 22:04:23 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:07:07 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 05:37:12 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,11 @@ void	free_info(t_info *info)
 	if (!info)
 		return ;
 	free(info);
+}
+
+void	reset_info(t_info *info)
+{
+	info->first = NULL;
+	info->last = NULL;
+	info->length = 0;
 }

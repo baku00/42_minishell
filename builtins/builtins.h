@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 21:00:12 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 22:47:18 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 16:32:04 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@
 # define EXIT 7
 
 int		is_builtins(t_string *cmd);
-void	exec_builtins(t_cmd *cmd, t_env *env);
+void	exec_builtins(t_cmd *cmd, t_env **env);
 #endif

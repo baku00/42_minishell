@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:00:20 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 16:35:53 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:27:14 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,28 @@ int	is_builtins(t_string *cmd)
 	return (0);
 }
 
-void	exec_builtins(t_cmd *cmd, t_env *env)
+void	exec_builtins(t_cmd *cmd, t_env **env)
 {
 	int	builtin;
 	int	fd;
 
 	fd = cmd->fd_out;
-	if (cmd->next)
-		fd = STDIN_FILENO;
-	env = get_info_first(env);
+	*env = get_info_first(*env);
 	builtin = is_builtins(cmd->bin);
 	if (builtin == ENV)
-		exec_env(cmd, env);
+		exec_env(cmd, *env);
 	else if (builtin == PWD)
 		exec_pwd(1, NULL, fd);
 	else if (builtin == EXPORT)
-		exec_export(cmd, env);
+		exec_export(cmd, *env);
 	else if (builtin == UNSET)
 		exec_unset(env, ((t_args *)cmd->args)->next);
 	else if (builtin == CD)
-		exec_cd(((t_args *)cmd->args)->next, &env);
+		exec_cd(((t_args *)cmd->args)->next, env);
 	else if (builtin == ECHO_CMD)
 		exec_echo(((t_args *)cmd->args)->next, fd);
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
 }

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 22:13:40 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:07:16 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/30 05:38:37 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ int		get_info_length(void *list);
 void	make_info(t_cmd *cmd, t_info *info_cmd, t_info *info_args);
 void	make_info_args(t_args *arg, t_info *info_arg);
 void	free_info(t_info *info);
+void	reset_info(t_info *info);
 #endif

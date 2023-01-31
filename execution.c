@@ -6,13 +6,13 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 05:08:28 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/01/31 00:45:45 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-static void	wait_all_pid(t_cmd *cmd)
+void	wait_all_pid(t_cmd *cmd)
 {
 	while (cmd)
 	{
@@ -31,7 +31,22 @@ static void	wait_all_pid(t_cmd *cmd)
 	}
 }
 
-// t_cmd	*create_cmd(t_cmd *prev, t_string *line, int i, t_env *env)
+void	close_all_fd(t_cmd *cmd)
+{
+	while (cmd)
+	{
+		if (cmd->fd_in != STDIN_FILENO)
+			close(cmd->fd_in);
+		if (cmd->fd_out != STDOUT_FILENO)
+			close(cmd->fd_out);
+		if (cmd->next)
+			cmd = cmd->next;
+		else
+			break ;
+	}
+}
+
+/* t_cmd	*create_cmd(t_cmd *prev, t_string *line, int i, t_env *env)
 // {
 // 	t_cmd		*cmd;
 // 	t_string	*current_arg;
@@ -59,7 +74,7 @@ static void	wait_all_pid(t_cmd *cmd)
 // 		else if (is_redirection(line->value[i], line->value[i + 1]))
 // 		{
 // 			cmd->redirection_id =
-//			redirection_id(line->value[i], line->value[i + 1]);
+// 			redirection_id(line->value[i], line->value[i + 1]);
 // 			break ;
 // 		}
 // 		else if (is_dollars(line->value[i]))
@@ -99,13 +114,12 @@ static void	wait_all_pid(t_cmd *cmd)
 // 	else
 // 		append_args(&cmd->args, current_arg);
 // }
-
-static void	execute_cmd(t_cmd *cmd, t_env *env)
+/////*/
+static void	execute_cmd(t_cmd *cmd, t_env **env)
 {
 	int		pid;
 
-	(void) env;
-	(void) pid;
+	cmd = get_info_first(cmd);
 	while (cmd)
 	{
 		if (get_string_length(cmd->bin))
@@ -119,10 +133,7 @@ static void	execute_cmd(t_cmd *cmd, t_env *env)
 					exec_bin(cmd, env);
 				else
 				{
-					if (cmd->fd_out != STDOUT_FILENO)
-						close(cmd->fd_out);
-					if (cmd->fd_in != STDIN_FILENO)
-						close(cmd->fd_in);
+					close_cmd_fd(cmd);
 					cmd->pid = pid;
 				}
 			}
@@ -132,19 +143,54 @@ static void	execute_cmd(t_cmd *cmd, t_env *env)
 		else
 			break ;
 	}
-	cmd = get_info_first(cmd);
-	wait_all_pid(cmd);
+	wait_all_pid(get_info_first(cmd));
 }
 
-void	execute(void *minishell_ptr, void *line, void *env)
+void	free_full(t_minishell *minishell)
+{
+	t_info	*cmd = get_minishell_info_cmd(minishell);
+	t_info	*cmd_args = get_minishell_info_cmd_args(minishell);
+	t_info	*configured = get_minishell_info_configured(minishell);
+	t_info	*configured_args = get_minishell_info_configured_args(minishell);
+
+	free_all_cmd(get_info_first(minishell->cmd));
+	minishell->cmd = NULL;
+	free_all_cmd(get_info_first(minishell->configured));
+	minishell->configured = NULL;
+
+	reset_info(cmd);
+	reset_info(cmd_args);
+	reset_info(configured);
+	reset_info(configured_args);
+}
+
+void	debug_cmd(t_cmd *cmd)
+{
+	t_args	*args;
+
+	printf("Bin: %s\n", get_string(cmd->bin));
+	args = cmd->args;
+	while (args->next)
+	{
+		printf("Args: %s\n", get_string(args->string));
+		args = args->next;
+	}
+	printf("Args: %s\n", get_string(args->string));
+	if (cmd->next)
+		debug_cmd(cmd->next);
+}
+
+void	execute(void *minishell_ptr, void *line, void **void_env)
 {
 	t_minishell	*minishell;
+	t_env		**env;
 	t_cmd		*cmd_error;
 	int			success;
 
+	env = (t_env **) void_env;
 	success = 0;
 	minishell = (t_minishell *) minishell_ptr;
-	minishell->cmd = create_cmd(NULL, (t_string *)line, 0, (t_env *)env);
+	minishell->cmd = create_cmd(NULL, (t_string *)line, 0, *env);
 	if (!minishell->cmd)
 		return ;
 	make_info(minishell->cmd, \
@@ -159,19 +205,14 @@ void	execute(void *minishell_ptr, void *line, void *env)
 	}
 	minishell->configured = \
 	make_redirection(NULL, get_minishell_info_cmd(minishell)->first, &success);
+	// debug_cmd(minishell->configured);
 	if (success)
 	{
-		free_all_cmd(get_info_first(minishell->cmd));
-		minishell->cmd = NULL;
-		free_all_cmd(get_info_first(minishell->configured));
-		minishell->configured = NULL;
+		free_full(minishell);
 		return (print_redirection_error(success));
 	}
 	make_info(minishell->configured, get_minishell_info_configured(minishell), \
 	get_minishell_info_configured_args(minishell));
 	execute_cmd(minishell->configured, env);
-	free_all_cmd(get_info_first(minishell->cmd));
-	minishell->cmd = NULL;
-	free_all_cmd(get_info_first(minishell->configured));
-	minishell->configured = NULL;
+	free_full(minishell);
 }
