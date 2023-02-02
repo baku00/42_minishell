@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   to_lower.c                                         :+:      :+:    :+:   */
+/*   free_info.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 04:22:19 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/02 19:49:45 by my_name_         ###   ########.fr       */
+/*   Created: 2023/02/02 19:50:24 by my_name_          #+#    #+#             */
+/*   Updated: 2023/02/02 19:50:33 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../string.h"
+#include "info.h"
 
-t_string	*string_to_lower(t_string *string)
+void	free_info(t_info *info)
 {
-	t_string	*lower;
-
-	if (!string)
-		return (NULL);
-	lower = string_dup(string);
-	string_go_to_lower(&lower);
-	return (lower);
+	if (!info)
+		return ;
+	free(info);
 }
 
-void	string_go_to_lower(t_string **string)
+void	reset_info(t_info *info)
 {
-	int	i;
-
-	if (!*string)
-		return ;
-	i = 0;
-	while (i < (*string)->length)
-	{
-		(*string)->value[i] = ft_tolower((*string)->value[i]);
-		i++;
-	}
+	info->first = NULL;
+	info->last = NULL;
+	info->length = 0;
 }

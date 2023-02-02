@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:50:05 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 16:59:23 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:54:20 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,7 @@ t_cmd	*create_cmd(t_cmd *prev, t_string *line, int i, t_env *env)
 		if (is_string_separator(line->value[i]))
 		{
 			if (!parse_string(env, &current_arg, line, &i))
-			{
-				while (prev && prev->prev)
-					prev = prev->prev;
-				if (prev)
-					free_all_cmd(prev);
-				else
-					free_all_cmd(cmd);
-				return (NULL);
-			}
+				return (free_all_cmd(cmd));
 		}
 		else if (is_redirection(line->value[i], line->value[i + 1]))
 		{
@@ -112,10 +104,11 @@ t_cmd	*create_cmd(t_cmd *prev, t_string *line, int i, t_env *env)
 			{
 				i = is_space(&cmd, &current_arg, line, i);
 				if (i == -1)
-					return (NULL);
+					return (free_all_cmd(cmd));
 				continue ;
 			}
-			append_char(&current_arg, line->value[i]);
+			if (!append_char(&current_arg, line->value[i]))
+				return (free_all_cmd(cmd));
 		}
 		i++;
 	}
@@ -123,6 +116,10 @@ t_cmd	*create_cmd(t_cmd *prev, t_string *line, int i, t_env *env)
 	if (i < line->length && is_redirection(line->value[i + 1], 0))
 		i++;
 	if (i + 1 < line->length)
+	{
 		cmd->next = create_cmd(cmd, line, i + 1, env);
+		if (!cmd->next)
+			return (free_all_cmd(cmd));
+	}
 	return (cmd);
 }

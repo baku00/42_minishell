@@ -38,6 +38,8 @@ SRCS = main.c \
 		class/exit/exit.c \
 		class/info/info.c \
 		class/info/get_info.c \
+		class/info/make_info.c \
+		class/info/free_info.c \
 		class/arg/arg.c \
 		class/arg/args_dup.c \
 		class/arg/free.c \

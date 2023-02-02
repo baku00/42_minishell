@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/31 00:45:45 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:48:28 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,6 @@ void	wait_all_pid(t_cmd *cmd)
 			if (WIFEXITED(g_status))
 				g_status = WEXITSTATUS(g_status);
 		}
-		if (cmd->next)
-			cmd = cmd->next;
-		else
-			break ;
-	}
-}
-
-void	close_all_fd(t_cmd *cmd)
-{
-	while (cmd)
-	{
-		if (cmd->fd_in != STDIN_FILENO)
-			close(cmd->fd_in);
-		if (cmd->fd_out != STDOUT_FILENO)
-			close(cmd->fd_out);
 		if (cmd->next)
 			cmd = cmd->next;
 		else
