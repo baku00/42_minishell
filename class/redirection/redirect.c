@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:03:52 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/30 21:32:23 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/03 17:57:00 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,7 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 				{
 					configured->fd_in = ((t_cmd *)cmd->prev)->fd_in;
 					if (((t_cmd *)cmd->prev)->redirection_id == REDIRECTION_HEREDOC)
-					{
 						configured->heredoc_file = string_dup(cmd->bin);
-					}
 				}
 			}
 			if (is_redirection_out(cmd->redirection_id))

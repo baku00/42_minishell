@@ -5,47 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 01:50:44 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/03 00:29:00 by my_name_         ###   ########.fr       */
+/*   Created: 2022/12/28 21:34:26 by my_name_          #+#    #+#             */
+/*   Updated: 2023/01/28 22:21:23 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
+#include <main.h>
 
-void	free_cmd(t_cmd	*cmd)
+//rl_clear_history();
+void	free_all(void)
 {
-	if (!cmd)
-		return ;
-	if (cmd->bin)
-		free_string(cmd->bin);
-	if (cmd->heredoc_file)
-		free_string(cmd->heredoc_file);
-	if (cmd->args)
-		args_free_all(cmd->args);
-	free(cmd);
-	cmd = NULL;
-}
-
-void	*free_null_cmd(t_cmd *cmd)
-{
-	if (cmd)
-		free_cmd(cmd);
-	return (NULL);
-}
-
-void	*free_all_cmd(void *array)
-{
-	t_cmd	*cmd;
-
-	if (!array)
-		return (NULL);
-	cmd = (t_cmd *) array;
-	while (cmd->next)
-	{
-		cmd = cmd->next;
-		free_cmd(cmd->prev);
-	}
-	if (cmd)
-		free_cmd(cmd);
-	return (NULL);
+	rl_clear_history();
+	clear_exit_manager();
 }
