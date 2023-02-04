@@ -75,86 +75,54 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 
 	configured = init_cmd(prev);
 	if (prev)
-	{
 		configured->fd_in = cmd->fd_in;
-	}
-	if (cmd)
+	configured->bin = string_dup(cmd->bin);
+	configured->args = args_dup(NULL, cmd->args);
+	if (!is_redirection_pipe(cmd->redirection_id))
 	{
-		configured->bin = string_dup(cmd->bin);
-		configured->args = args_dup(NULL, cmd->args);
-		while (!is_redirection_pipe(cmd->redirection_id))
+		while (is_redirection_in_or_out(cmd->redirection_id))
 		{
-			while (is_redirection_in(cmd->redirection_id))
+			if (cmd->prev && cmd->redirection_id == ((t_cmd *)cmd->prev)->redirection_id)
+				close_cmd_fd(cmd->prev);
+			if (!redirect_fd(&cmd))
 			{
-				if (cmd->prev && !is_redirection_pipe(((t_cmd *)cmd->prev)->redirection_id))
-					close_cmd_fd(cmd->prev);
-				if (!redirect_fd(&cmd))
-				{
-					*success = cmd->fd_in;
-					free_cmd(configured);
-					return (NULL);
-				}
-				if (cmd->next)
-					cmd = cmd->next;
-				else
-					break ;
+				*success = cmd->fd_in;
+				return (free_null_cmd(configured));
 			}
-			if (configured->fd_in == STDIN_FILENO)
-			{
-				configured->fd_in = cmd->fd_in;
-				if (cmd->prev)
-				{
-					configured->fd_in = ((t_cmd *)cmd->prev)->fd_in;
-					if (((t_cmd *)cmd->prev)->redirection_id == REDIRECTION_HEREDOC)
-						configured->heredoc_file = string_dup(cmd->bin);
-				}
-			}
-			if (is_redirection_out(cmd->redirection_id))
-			{
-				while (is_redirection_out(cmd->redirection_id))
-				{
-					if (cmd->prev && is_redirection_out(((t_cmd *)cmd->prev)->redirection_id))
-						close_cmd_fd(cmd->prev);
-					if (!redirect_fd(&cmd))
-					{
-						*success = cmd->fd_out;
-						return (NULL);
-					}
-					if (cmd->args && ((t_args *)cmd->args)->next && ((t_args *)((t_args *)cmd->args)->next)->next && cmd->prev)
-						append_more_args(&configured->args, ((t_args *)((t_args *)cmd->args)->next)->next);
-					if (cmd->next)
-						cmd = cmd->next;
-					else
-						break ;
-				}
-				if (cmd->args && ((t_args *)cmd->args)->next)
-					append_more_args(&configured->args, ((t_args *)cmd->args)->next);
-				if (configured->fd_out == STDOUT_FILENO)
-					configured->fd_out = cmd->fd_out;
-				if (cmd->prev)
-					configured->fd_out = ((t_cmd *)cmd->prev)->fd_out;
-			}
-			if (cmd->next && !is_redirection_pipe(cmd->redirection_id))
+			if (cmd->prev && ((t_cmd *)cmd->prev)->redirection_id != REDIRECTION_PIPE && cmd->args)
+				append_more_args(&configured->args, ((t_args *)cmd->args)->next);
+			if (cmd->next)
 				cmd = cmd->next;
 			else
 				break ;
 		}
-		if (cmd->next)
+		if (configured->fd_in == STDIN_FILENO)
+			configured->fd_in = cmd->fd_in;
+		if (configured->fd_out == STDOUT_FILENO)
+			configured->fd_out = cmd->fd_out;
+		if (cmd->prev && ((t_cmd *)cmd->prev)->redirection_id != REDIRECTION_PIPE)
 		{
-			pipe(fd);
-			configured->fd_out = fd[1];
-			configured->redirection_id = cmd->redirection_id;
-			((t_cmd *)cmd->next)->fd_in = fd[0];
-			configured->next = make_redirection(configured, cmd->next, success);
-			if (!configured->next)
+			if (configured->fd_in == STDIN_FILENO)
+				configured->fd_in = ((t_cmd *)cmd->prev)->fd_in;
+			if (configured->fd_out == STDOUT_FILENO)
+				configured->fd_out = ((t_cmd *)cmd->prev)->fd_out;
+		}
+	}
+	if (cmd->next)
+	{
+		pipe(fd);
+		configured->fd_out = fd[1];
+		configured->redirection_id = cmd->redirection_id;
+		((t_cmd *)cmd->next)->fd_in = fd[0];
+		configured->next = make_redirection(configured, cmd->next, success);
+		if (!configured->next)
+		{
+			while (configured->prev)
 			{
-				while (configured->prev)
-				{
-					configured = configured->prev;
-					free_cmd(configured->next);
-				}
-				return (NULL);
+				configured = configured->prev;
+				free_cmd(configured->next);
 			}
+			return (NULL);
 		}
 	}
 	return (configured);
