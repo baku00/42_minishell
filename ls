@@ -1,5 +1,3 @@
-1
-2
 bin
 builtins
 class
@@ -12,6 +10,7 @@ header
 hello
 kill.sh
 libft
+ls
 main2
 main.c
 main.h
