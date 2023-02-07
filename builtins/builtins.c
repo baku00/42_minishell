@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:00:20 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/30 17:27:14 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 00:25:13 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	is_builtins(t_string *cmd)
 {
 	int	builtin;
 
+	if (!cmd)
+		return (0);
 	builtin = is_builtin(cmd, "echo", ECHO_CMD);
 	if (builtin)
 		return (builtin);

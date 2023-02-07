@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/03 01:00:16 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 01:35:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,20 +107,17 @@ static void	execute_cmd(t_cmd *cmd, t_env **env)
 	cmd = get_info_first(cmd);
 	while (cmd)
 	{
-		if (get_string_length(cmd->bin))
+		if (is_builtins(cmd->bin))
+			exec_builtins(cmd, env);
+		else
 		{
-			if (is_builtins(cmd->bin))
-				exec_builtins(cmd, env);
+			pid = fork();
+			if (pid == 0)
+				exec_bin(cmd, env);
 			else
 			{
-				pid = fork();
-				if (pid == 0)
-					exec_bin(cmd, env);
-				else
-				{
-					close_cmd_fd(cmd);
-					cmd->pid = pid;
-				}
+				close_cmd_fd(cmd);
+				cmd->pid = pid;
 			}
 		}
 		if (cmd->next)
@@ -136,13 +133,17 @@ void	debug_cmd(t_cmd *cmd)
 	t_args	*args;
 
 	printf("Bin: %s\n", get_string(cmd->bin));
+	printf("Heredoc file: %s\n", get_string(cmd->heredoc_file));
 	args = cmd->args;
-	while (args->next)
+	if (args)
 	{
+		while (args->next)
+		{
+			printf("Args: %s\n", get_string(args->string));
+			args = args->next;
+		}
 		printf("Args: %s\n", get_string(args->string));
-		args = args->next;
 	}
-	printf("Args: %s\n", get_string(args->string));
 	if (cmd->next)
 		debug_cmd(cmd->next);
 }
@@ -172,7 +173,8 @@ void	execute(void *minishell_ptr, void *line, void **void_env)
 	}
 	minishell->configured = \
 	make_redirection(NULL, get_minishell_info_cmd(minishell)->first, &success);
-	if (success)
+	debug_cmd(minishell->configured);
+	if (success || !minishell->configured)
 	{
 		reset_minishell(minishell);
 		return (print_redirection_error(success));

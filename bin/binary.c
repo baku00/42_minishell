@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 18:27:02 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/03 00:55:21 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 01:10:12 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,19 @@ void	exec_bin(t_cmd *cmd, t_env **env)
 	if (cmd)
 	{
 		execute_fd(cmd);
-		path = get_bin_path(get_string(cmd->bin), *env);
-		if (!path)
-			not_found(cmd);
-		else
+		if (cmd->bin)
 		{
-			if (access(path, X_OK))
-				return (print_binary_not_permission(cmd->bin));
-			close_all_fd(cmd);
-			execve(path, list_to_array(cmd->args), env_to_array(*env));
-			print_binary_execution_error(cmd->bin);
+			path = get_bin_path(get_string(cmd->bin), *env);
+			if (!path)
+				not_found(cmd);
+			else
+			{
+				if (access(path, X_OK))
+					return (print_binary_not_permission(cmd->bin));
+				close_all_fd(cmd);
+				execve(path, list_to_array(cmd->args), env_to_array(*env));
+				print_binary_execution_error(cmd->bin);
+			}
 		}
 	}
 	exit(127);

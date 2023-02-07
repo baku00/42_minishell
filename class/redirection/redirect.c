@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:03:52 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/03 17:57:00 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 01:34:57 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	redirect_fd(t_cmd **cmd)
 		(*cmd)->fd_in = open_file(get_string(next->bin),
 				O_RDWR | O_TRUNC | O_CREAT, 0777);
 		next->is_file = IS_FILE;
+		(*cmd)->heredoc_file = string_dup(next->bin);
+		printf("Heredoc file REDIRECTED: %s\n", get_string((*cmd)->heredoc_file));
 	}
 	else if ((*cmd)->redirection_id == REDIRECTION_PIPE)
 		redirect_pipe(cmd);
@@ -59,7 +61,7 @@ int	redirect_fd(t_cmd **cmd)
 
 static void	append_more_args(t_args **args, t_args *append)
 {
-	if (!append || !args)
+	if (!append || !(*args))
 		return ;
 	while ((*args)->next)
 		*args = (*args)->next;
@@ -74,6 +76,8 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 	int		fd[2];
 
 	configured = init_cmd(prev);
+	if (!configured)
+		return (free_null_cmd(configured));
 	if (prev)
 		configured->fd_in = cmd->fd_in;
 	configured->bin = string_dup(cmd->bin);
@@ -89,6 +93,8 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 				*success = cmd->fd_in;
 				return (free_null_cmd(configured));
 			}
+			if (is_redirection_heredoc(cmd->redirection_id))
+				configured->heredoc_file = string_dup(cmd->heredoc_file);
 			if (cmd->prev && ((t_cmd *)cmd->prev)->redirection_id != REDIRECTION_PIPE && cmd->args)
 				append_more_args(&configured->args, ((t_args *)cmd->args)->next);
 			if (cmd->next)
@@ -122,7 +128,7 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 				configured = configured->prev;
 				free_cmd(configured->next);
 			}
-			return (NULL);
+			return (free_null_cmd(configured));
 		}
 	}
 	return (configured);
