@@ -78,12 +78,13 @@ LIBFT = libft/libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
-CFLAGS += -fsanitize=address -fsanitize=leak
+CFLAGS = -Wall -Wextra
+CFLAGS += -fsanitize=address
 
 INCLUDES = -I. -lreadline
 
 ifeq ($(UNAME), Linux)
+	FLAGS += -fsanitize=leak
 	INCLUDES = -I. -L/usr/local/lib -I/usr/local/include -lreadline
 endif
 
