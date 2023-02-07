@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 03:21:01 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:26:14 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,19 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	info = get_minishell_info_env(minishell);
 	minishell->env = generate_env(NULL, info, envp, 0);
+	if (argc >= 2)
+	{
+		minishell->line = create_string(argv[2]);
+		if (!minishell->line || equals_string_to_char(minishell->line, "exit"))
+		{}
+		else
+		{
+		if (get_string_length(minishell->line))
+			execute(minishell, minishell->line, (void **) &minishell->env);
+		}
+	}
+	else
+	{
 	while (1)
 	{
 		minishell->line = prompt("Minishell: ");
@@ -64,6 +77,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (get_string_length(minishell->line))
 			execute(minishell, minishell->line, (void **) &minishell->env);
 		free_string(minishell->line);
+	}
 	}
 	free_minishell(minishell);
 	return (0);
