@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:29:46 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 03:02:43 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:38:11 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	exec_echo(t_args *args, int fd)
 	{
 		if (!args->next)
 			return ;
-		else
+		if (length == 2)
 			args = args->next;
 	}
 	echo_print_args(args, fd);
-	if (n)
+	if (n || length < 2)
 		ft_putchar_fd('\n', fd);
 }
