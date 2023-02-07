@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 03:25:15 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:00:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ void	execute(void *minishell_ptr, void *line, void **void_env)
 	}
 	minishell->configured = \
 	make_redirection(NULL, get_minishell_info_cmd(minishell)->first, &success);
-	debug_cmd(minishell->configured);
 	if (success || !minishell->configured)
 	{
 		reset_minishell(minishell);

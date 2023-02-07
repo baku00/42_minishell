@@ -35,7 +35,6 @@ SRCS = main.c \
 		class/cmd/free.c \
 		class/cmd/check_error.c \
 		class/file/file.c \
-		class/exit/exit.c \
 		class/info/info.c \
 		class/info/get_info.c \
 		class/info/make_info.c \
