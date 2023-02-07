@@ -59,6 +59,7 @@ SRCS = main.c \
 		builtins/env/append.c \
 		builtins/env/get_special_env.c \
 		builtins/echo/exec_echo.c \
+		builtins/exit/exec_exit.c \
 		builtins/pwd/pwd.c \
 		builtins/export/exec_export.c \
 		builtins/export/print_export.c \

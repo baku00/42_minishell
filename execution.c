@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 01:35:07 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 03:25:15 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	wait_all_pid(t_cmd *cmd)
 // 		append_args(&cmd->args, current_arg);
 // }
 /////*/
-static void	execute_cmd(t_cmd *cmd, t_env **env)
+static void	execute_cmd(t_minishell *minishell, t_cmd *cmd, t_env **env)
 {
 	int		pid;
 
@@ -108,7 +108,7 @@ static void	execute_cmd(t_cmd *cmd, t_env **env)
 	while (cmd)
 	{
 		if (is_builtins(cmd->bin))
-			exec_builtins(cmd, env);
+			exec_builtins(minishell, cmd, env);
 		else
 		{
 			pid = fork();
@@ -181,6 +181,6 @@ void	execute(void *minishell_ptr, void *line, void **void_env)
 	}
 	make_info(minishell->configured, get_minishell_info_configured(minishell), \
 	get_minishell_info_configured_args(minishell));
-	execute_cmd(minishell->configured, env);
+	execute_cmd(minishell, minishell->configured, env);
 	reset_minishell(minishell);
 }

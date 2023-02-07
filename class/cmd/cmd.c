@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:50:05 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/02 19:54:20 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 03:26:30 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ t_cmd	*init_cmd(t_cmd *prev)
 
 	cmd = ft_calloc(sizeof(t_cmd), 1);
 	if (!cmd)
-	{
-		set_have_to_exit(1);
 		return (NULL);
-	}
 	cmd->bin = NULL;
 	cmd->args = NULL;
 	cmd->type = TYPE_CMD;

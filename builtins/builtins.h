@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 21:00:12 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/30 16:32:04 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 03:24:40 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "unset/unset.h"
 # include "cd/cd.h"
 # include "echo/echo.h"
+# include "exit/exit.h"
 # define ECHO_CMD 1
 # define CD 2
 # define PWD 3
@@ -28,5 +29,5 @@
 # define EXIT 7
 
 int		is_builtins(t_string *cmd);
-void	exec_builtins(t_cmd *cmd, t_env **env);
+void	exec_builtins(t_minishell *minishell, t_cmd *cmd, t_env **env);
 #endif

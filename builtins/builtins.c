@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:00:20 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 00:25:13 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 03:30:27 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_builtins(t_string *cmd)
 	return (0);
 }
 
-void	exec_builtins(t_cmd *cmd, t_env **env)
+void	exec_builtins(t_minishell *minishell, t_cmd *cmd, t_env **env)
 {
 	int	builtin;
 	int	fd;
@@ -66,6 +66,7 @@ void	exec_builtins(t_cmd *cmd, t_env **env)
 	fd = cmd->fd_out;
 	*env = get_info_first(*env);
 	builtin = is_builtins(cmd->bin);
+	(void) minishell;
 	if (builtin == ENV)
 		exec_env(cmd, *env);
 	else if (builtin == PWD)
@@ -78,6 +79,8 @@ void	exec_builtins(t_cmd *cmd, t_env **env)
 		exec_cd(((t_args *)cmd->args)->next, env);
 	else if (builtin == ECHO_CMD)
 		exec_echo(((t_args *)cmd->args)->next, fd);
+	else if (builtin == EXIT)
+		exec_exit(minishell, ((t_args *)cmd->args)->next, fd);
 	if (cmd->fd_in != STDIN_FILENO)
 		close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)

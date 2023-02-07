@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/06 21:51:04 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/07 03:21:01 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		minishell->line = prompt("Minishell: ");
-		if (!minishell->line || equals_string_to_char(minishell->line, "exit"))
+		if (!minishell->line)
 			break ;
 		else if (get_string_length(minishell->line))
 			execute(minishell, minishell->line, (void **) &minishell->env);
