@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 22:45:33 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/30 16:22:26 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/09 20:16:59 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,20 @@ static void	remove_first_env(t_env **env)
 {
 	t_env	*next;
 
-	next = (*env)->next;
-	get_info(next)->first = next;
-	free_env(*env);
-	*env = NULL;
-	*env = next;
-	(*env)->prev = NULL;
-	printf("Next: %p\n", next);
+	if (!(*env)->next)
+	{
+		free_env(*env);
+		*env = NULL;
+	}
+	else
+	{
+		next = (*env)->next;
+		get_info(next)->first = next;
+		free_env(*env);
+		*env = NULL;
+		*env = next;
+		(*env)->prev = NULL;
+	}
 }
 
 static void	remove_last_env(t_env **env)
@@ -59,5 +66,6 @@ void	remove_env(t_env **env)
 		remove_last_env(env);
 	else
 		remove_into_env(env);
-	get_info(*env)->length -= 1;
+	if (*env)
+		get_info(*env)->length -= 1;
 }

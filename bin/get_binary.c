@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 02:05:42 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 00:30:37 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:32:08 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*get_bin_path(char *bin, t_env *env)
 			return (bin);
 	}
 	env_from_char = get_env_from_char_key(env, "PATH", 0);
+	if (!env_from_char)
+		return (NULL);
 	paths = ft_split(get_string(env_from_char->value), ':');
 	i = -1;
 	while (paths[++i])

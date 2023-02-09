@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:19:08 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/30 17:15:55 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:52:49 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,37 @@ void	append_vars(t_env **env, t_args *args)
 		print_error(appended, args->string);
 }
 
+t_env	*export_dup(t_env *prev, t_env *env, t_info **info)
+{
+	t_env	*export;
+
+	export = env_dup(env);
+	export->info = (*info);
+	export->prev = prev;
+	export->next = NULL;
+	(*info)->length += 1;
+	if (!prev)
+		(*info)->first = export;
+	if (env->next)
+		export->next = export_dup(export, env->next, info);
+	else
+		(*info)->last = export;
+	return (export);
+}
+
 void	exec_export(t_cmd *cmd, t_env *env)
 {
-	env = get_info_first(env);
+	t_env	*export;
+	t_info	*info_export;
+
 	if (!((t_args *) cmd->args)->next)
-		print_export(env, cmd->fd_out);
+	{
+		info_export = create_info();
+		export = export_dup(NULL, env, &info_export);
+		export = get_info_first(export);
+		print_export(export, cmd->fd_out);
+		// export = NULL;
+	}
 	else
 		append_vars(&env, ((t_args *) get_info_first(cmd->args))->next);
 	env = get_info_first(env);
