@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.h                                             :+:      :+:    :+:   */
+/*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/28 21:19:31 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 23:13:50 by my_name_         ###   ########.fr       */
+/*   Created: 2023/02/11 16:02:35 by my_name_          #+#    #+#             */
+/*   Updated: 2023/02/11 16:02:51 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXIT_H
-# define EXIT_H
-# include "../class.h"
+#include "cd.h"
 
-t_exit	g_exit_manager;
-void		create_exit_manager(void);
-void		set_have_to_exit(int state);
-int			have_to_exit(void);
-t_string	*get_exit_string(void);
-void		clear_exit_manager(void);
-#endif
+int	check_path(t_args **path, t_env **env)
+{
+	t_env	*home;
+
+	home = get_env_from_char_key(*env, "HOME", 0);
+	if (!(*path))
+	{
+		*path = create_args(NULL, home->value);
+		return (1);
+	}
+	else if (!(*path)->string)
+	{
+		(*path)->string = home->value;
+		return (1);
+	}
+	else if (!get_string_length((*path)->string))
+	{
+		(*path)->string = home->value;
+		return (1);
+	}
+	return (0);
+}

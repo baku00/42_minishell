@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:03:52 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 01:34:57 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:11:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,33 @@ static int	redirect_pipe(t_cmd **cmd)
 int	redirect_fd(t_cmd **cmd)
 {
 	t_cmd	*next;
+	char	*file;
 
 	if (!(*cmd)->next)
 		return (REDIRECTION_EMPTY);
 	next = (*cmd)->next;
+	file = get_string(next->bin);
 	if ((*cmd)->redirection_id == REDIRECTION_OUTPUT)
-	{
-		(*cmd)->fd_out = open_file(get_string(next->bin),
-				O_WRONLY | O_TRUNC | O_CREAT, 0777);
-		next->is_file = IS_FILE;
-	}
+		(*cmd)->fd_out = open_file(file, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	else if ((*cmd)->redirection_id == REDIRECTION_APPEND)
-	{
-		(*cmd)->fd_out = open_file(get_string(next->bin),
-				O_WRONLY | O_APPEND | O_CREAT, 0777);
-		next->is_file = IS_FILE;
-	}
+		(*cmd)->fd_out = open_file(file, O_WRONLY | O_APPEND | O_CREAT, 0777);
 	else if ((*cmd)->redirection_id == REDIRECTION_INPUT)
-	{
-		(*cmd)->fd_in = open_file(get_string(next->bin), O_RDONLY, -1);
-	}
+		(*cmd)->fd_in = open_file(file, O_RDONLY, -1);
 	else if ((*cmd)->redirection_id == REDIRECTION_HEREDOC)
 	{
-		(*cmd)->fd_in = open_file(get_string(next->bin),
-				O_RDWR | O_TRUNC | O_CREAT, 0777);
-		next->is_file = IS_FILE;
+		(*cmd)->fd_in = open_file(file, O_RDWR | O_TRUNC | O_CREAT, 0777);
 		(*cmd)->heredoc_file = string_dup(next->bin);
-		printf("Heredoc file REDIRECTED: %s\n", get_string((*cmd)->heredoc_file));
 	}
 	else if ((*cmd)->redirection_id == REDIRECTION_PIPE)
 		redirect_pipe(cmd);
-	return ((*cmd)->fd_in >= 0 && (*cmd)->fd_out >= 1);
+	if ((*cmd)->fd_in < 0)
+		return ((*cmd)->fd_in);
+	else if ((*cmd)->fd_out < 0)
+		return ((*cmd)->fd_out);
+	return (1);
 }
 
-static void	append_more_args(t_args **args, t_args *append)
+void	append_more_args(t_args **args, t_args *append)
 {
 	if (!append || !(*args))
 		return ;
@@ -70,66 +63,81 @@ static void	append_more_args(t_args **args, t_args *append)
 		(*args) = (*args)->prev;
 }
 
+static void	*free_to_first(t_cmd **configured)
+{
+	while ((*configured)->prev)
+	{
+		(*configured) = (*configured)->prev;
+		free_cmd((*configured)->next);
+	}
+	return (free_null_cmd((*configured)));
+}
+
 t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 {
 	t_cmd	*configured;
-	int		fd[2];
 
-	configured = init_cmd(prev);
+	configured = cmd_dup(prev, cmd);
 	if (!configured)
 		return (free_null_cmd(configured));
-	if (prev)
-		configured->fd_in = cmd->fd_in;
-	configured->bin = string_dup(cmd->bin);
-	configured->args = args_dup(NULL, cmd->args);
 	if (!is_redirection_pipe(cmd->redirection_id))
 	{
-		while (is_redirection_in_or_out(cmd->redirection_id))
-		{
-			if (cmd->prev && cmd->redirection_id == ((t_cmd *)cmd->prev)->redirection_id)
-				close_cmd_fd(cmd->prev);
-			if (!redirect_fd(&cmd))
-			{
-				*success = cmd->fd_in;
-				return (free_null_cmd(configured));
-			}
-			if (is_redirection_heredoc(cmd->redirection_id))
-				configured->heredoc_file = string_dup(cmd->heredoc_file);
-			if (cmd->prev && ((t_cmd *)cmd->prev)->redirection_id != REDIRECTION_PIPE && cmd->args)
-				append_more_args(&configured->args, ((t_args *)cmd->args)->next);
-			if (cmd->next)
-				cmd = cmd->next;
-			else
-				break ;
-		}
-		if (configured->fd_in == STDIN_FILENO)
-			configured->fd_in = cmd->fd_in;
-		if (configured->fd_out == STDOUT_FILENO)
-			configured->fd_out = cmd->fd_out;
-		if (cmd->prev && ((t_cmd *)cmd->prev)->redirection_id != REDIRECTION_PIPE)
-		{
-			if (configured->fd_in == STDIN_FILENO)
-				configured->fd_in = ((t_cmd *)cmd->prev)->fd_in;
-			if (configured->fd_out == STDOUT_FILENO)
-				configured->fd_out = ((t_cmd *)cmd->prev)->fd_out;
-		}
+		if (!create_redirection(&configured, &cmd, success))
+			return (free_null_cmd(configured));
+		copy_fd_in_and_out(&configured, cmd);
+		if (cmd->prev && \
+		!is_redirection_pipe(get_cmd_prev(cmd)->redirection_id))
+			copy_fd_in_and_out(&configured, cmd->prev);
 	}
 	if (cmd->next)
 	{
-		pipe(fd);
-		configured->fd_out = fd[1];
-		configured->redirection_id = cmd->redirection_id;
-		((t_cmd *)cmd->next)->fd_in = fd[0];
+		if (!create_redirection_pipe(&configured, &cmd))
+			return (free_to_first(&configured));
 		configured->next = make_redirection(configured, cmd->next, success);
 		if (!configured->next)
-		{
-			while (configured->prev)
-			{
-				configured = configured->prev;
-				free_cmd(configured->next);
-			}
-			return (free_null_cmd(configured));
-		}
+			return (free_to_first(&configured));
 	}
 	return (configured);
 }
+
+// t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
+// {
+// 	t_cmd	*configured;
+
+// 	configured = cmd_dup(prev, cmd);
+// 	if (!configured)
+// 		return (free_null_cmd(configured));
+// 	if (!is_redirection_pipe(cmd->redirection_id))
+// 	{
+// 		while (is_redirection_in_or_out(cmd->redirection_id))
+// 		{
+// 			if (cmd->prev && cmd->redirection_id == 
+// get_cmd_prev(cmd)->redirection_id)
+// 				close_cmd_fd(cmd->prev);
+// 			*success = redirect_fd(&cmd);
+// 			if (*success != 1)
+// 				return (free_null_cmd(configured));
+// 			if (is_redirection_heredoc(cmd->redirection_id))
+// 				configured->heredoc_file = string_dup(cmd->heredoc_file);
+// 			if (cmd->prev && 
+// get_cmd_prev(cmd)->redirection_id != REDIRECTION_PIPE && cmd->args)
+// 				append_more_args(&configured->args, get_cmd_args(cmd)->next);
+// 			if (cmd->next)
+// 				cmd = cmd->next;
+// 			else
+// 				break ;
+// 		}
+// 		copy_fd_in_and_out(&configured, cmd);
+//	if (cmd->prev && !is_redirection_pipe(get_cmd_prev(cmd)->redirection_id))
+// 			copy_fd_in_and_out(&configured, cmd->prev);
+// 	}
+// 	if (cmd->next)
+// 	{
+// 		if (!create_redirection_pipe(&configured, &cmd))
+// 			return (free_to_first(&configured));
+// 		configured->next = make_redirection(configured, cmd->next, success);
+// 		if (!configured->next)
+// 			return (free_to_first(&configured));
+// 	}
+// 	return (configured);
+// }

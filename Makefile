@@ -21,6 +21,7 @@ SRCS = main.c \
 		class/redirection/types/heredoc.c \
 		class/redirection/fd_manager.c \
 		class/redirection/redirection.c \
+		class/redirection/create_redirection.c \
 		class/redirection/redirect.c \
 		class/redirection/detect_redirection.c \
 		class/redirection/redirection_error.c \
@@ -32,8 +33,10 @@ SRCS = main.c \
 		class/minishell/minishell_infos.c \
 		class/minishell/minishell.c \
 		class/cmd/cmd.c \
+		class/cmd/get_cmd.c \
 		class/cmd/free.c \
 		class/cmd/check_error.c \
+		class/cmd/cmd_dup.c \
 		class/file/file.c \
 		class/info/info.c \
 		class/info/get_info.c \
@@ -66,6 +69,9 @@ SRCS = main.c \
 		builtins/unset/exec_unset.c \
 		builtins/unset/print_error.c \
 		builtins/cd/cd.c \
+		builtins/cd/go_to.c \
+		builtins/cd/print_error.c \
+		builtins/cd/check.c \
 		bin/binary.c \
 		bin/binary_error.c \
 		bin/get_binary.c \
@@ -78,7 +84,7 @@ LIBFT = libft/libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -fsanitize=address
 
 INCLUDES = -I. -lreadline

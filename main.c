@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/09 20:05:14 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:18:43 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,19 @@ int	main(int argc, char **argv, char **envp)
 	if (!minishell)
 		return (1);
 	info = get_minishell_info_env(minishell);
-	minishell->env = generate_env(NULL, info, envp, 49);
-	if (argc >= 2)
+	minishell->env = generate_env(NULL, info, envp, 0);
+	while (1)
 	{
-		minishell->line = create_string(argv[2]);
-		if (!minishell->line || equals_string_to_char(minishell->line, "exit"))
-		{}
-		else
+		use_signal();
+		minishell->line = prompt("Minishell: ");
+		if (!minishell->line)
+			break ;
+		else if (get_string_length(minishell->line))
 		{
-		if (get_string_length(minishell->line))
-			execute(minishell, minishell->line, (void **) &minishell->env);
+			execute(minishell, minishell->line, &minishell->env);
+			reset_minishell(minishell);
 		}
-	}
-	else
-	{
-		while (1)
-		{
-			use_signal();
-			minishell->line = prompt("Minishell: ");
-			if (!minishell->line)
-				break ;
-			else if (get_string_length(minishell->line))
-				execute(minishell, minishell->line, (void **) &minishell->env);
-			free_string(minishell->line);
-		}
+		free_string(minishell->line);
 	}
 	free_minishell(minishell);
 	return (0);

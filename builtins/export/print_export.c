@@ -6,68 +6,55 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:19:32 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/09 20:02:47 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/12 00:19:53 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "export.h"
 
-// void	print_export(t_env *env, int fd)
-// {
-// 	ft_putstr_fd(get_string(env->key), fd);
-// 	if (env->has_value)
-// 	{
-// 		ft_putchar_fd('=', fd);
-// 		ft_putstr_fd(get_string(env->value), fd);
-// 	}
-// 	ft_putstr_fd("\n", fd);
-// 	if (env->next)
-// 		print_export(env->next, fd);
-// }
-
 void	print_current(t_env *current, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(get_string(current->key), fd);
-	ft_putstr_fd("=\"", fd);
-	ft_putstr_fd(get_string(current->value), fd);
+	if (current->has_value)
+	{
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(get_string(current->value), fd);
+	}
 	ft_putendl_fd("\"", fd);
 }
 
-void first(t_env **env)
+t_env	*find_first(t_env *env)
 {
-	while ((*env)->prev)
-		(*env) = (*env)->prev;
+	t_env	*first;
+
+	env = get_info_first(env);
+	first = env;
+	while (env->next)
+	{
+		env = env->next;
+		if (compare_string(first->key, env->key) > 0)
+			first = env;
+	}
+	return (first);
 }
 
 void	print_export(t_env *env, int fd)
 {
-	t_env	*current;
-	int		compare;
-	int		length;
+	t_env	*first;
+	t_args	*key;
 
-	current = env;
-	if (env->next)
+	first = find_first(env);
+	env = get_info_first(env);
+	print_current(first, fd);
+	key = create_args(NULL, first->key);
+	exec_unset(&env, key);
+	free_args(key);
+	if (env && env->next)
+		print_export(env->next, fd);
+	else if (env)
 	{
-		env = env->next;
-		compare = compare_string(current->key, env->key);
-		while (compare)
-		{
-			if (compare > 0)
-				current = env;
-			if (env->next)
-				env = env->next;
-			else
-				break ;
-			compare = compare_string(current->key, env->key);
-		}
-	}
-	print_current(current, fd);
-	length = get_info_length(current);
-	remove_env(&current);
-	if (length >= 2)
-	{
-		env = get_info_first(env);
-		print_export(env, fd);
+		print_current(env, fd);
+		free_all_env(env);
 	}
 }

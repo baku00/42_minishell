@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_manager.c                                       :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 23:15:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/11 17:08:51 by my_name_         ###   ########.fr       */
+/*   Created: 2023/02/11 15:59:10 by my_name_          #+#    #+#             */
+/*   Updated: 2023/02/11 15:59:17 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "redirection.h"
+#include "cd.h"
 
-void	execute_fd(t_cmd *cmd)
+void	cd_print_error(int access, t_string *path_string)
 {
-	if (cmd->heredoc_file)
-	{
-		call_heredoc(cmd);
-		close(cmd->fd_in);
-		cmd->fd_in = open(get_string(cmd->heredoc_file), O_RDONLY);
-	}
-	if (cmd->fd_in != STDIN_FILENO)
-		dup2(cmd->fd_in, STDIN_FILENO);
-	if (cmd->fd_out != STDOUT_FILENO)
-		dup2(cmd->fd_out, STDOUT_FILENO);
-	close_cmd_fd(cmd);
-}
-
-void	close_fd(int fd, int std)
-{
-	if (fd != std)
-		close(fd);
+	if (access == IS_DIR)
+		printf("%s: Permission interdite\n", get_string(path_string));
+	else if (access == IS_FILE)
+		printf("%s: Est un fichier\n", get_string(path_string));
+	else
+		printf("%s: Aucun fichier ou dossier\n", get_string(path_string));
 }

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 18:56:46 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 16:58:51 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/10 03:13:28 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CLASS_H
 # include "../header/header.h"
 # include "string/string.h"
-//# include "exit/exit.h"
 # include "redirection/redirection.h"
 # include "dollars/dollars.h"
 # include "info/info.h"

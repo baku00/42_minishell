@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 18:00:33 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:18:17 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,17 +148,13 @@ void	debug_cmd(t_cmd *cmd)
 		debug_cmd(cmd->next);
 }
 
-void	execute(void *minishell_ptr, void *line, void **void_env)
+void	execute(t_minishell *minishell, t_string *line, t_env **env)
 {
-	t_minishell	*minishell;
-	t_env		**env;
 	t_cmd		*cmd_error;
 	int			success;
 
-	env = (t_env **) void_env;
-	success = 0;
-	minishell = (t_minishell *) minishell_ptr;
-	minishell->cmd = create_cmd(NULL, (t_string *)line, 0, *env);
+	success = 1;
+	minishell->cmd = create_cmd(NULL, line, 0, *env);
 	if (!minishell->cmd)
 		return ;
 	make_info(minishell->cmd, \
@@ -173,14 +169,9 @@ void	execute(void *minishell_ptr, void *line, void **void_env)
 	}
 	minishell->configured = \
 	make_redirection(NULL, get_minishell_info_cmd(minishell)->first, &success);
-	//debug_cmd(minishell->configured);
-	if (success || !minishell->configured)
-	{
-		reset_minishell(minishell);
+	if (success != 1 || !minishell->configured)
 		return (print_redirection_error(success));
-	}
 	make_info(minishell->configured, get_minishell_info_configured(minishell), \
 	get_minishell_info_configured_args(minishell));
-	execute_cmd(minishell, minishell->configured, env);
-	reset_minishell(minishell);
+	return (execute_cmd(minishell, minishell->configured, env));
 }

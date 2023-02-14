@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:00:20 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 03:30:27 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/11 16:09:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ int	is_builtins(t_string *cmd)
 	builtin = is_builtin(cmd, "env", ENV);
 	if (builtin)
 		return (builtin);
-	builtin = is_builtin(cmd, "exit", EXIT);
-	if (builtin)
-		return (builtin);
-	return (0);
+	return (is_builtin(cmd, "exit", EXIT));
 }
 
 void	exec_builtins(t_minishell *minishell, t_cmd *cmd, t_env **env)
@@ -81,8 +78,6 @@ void	exec_builtins(t_minishell *minishell, t_cmd *cmd, t_env **env)
 		exec_echo(((t_args *)cmd->args)->next, fd);
 	else if (builtin == EXIT)
 		exec_exit(minishell, ((t_args *)cmd->args)->next, fd);
-	if (cmd->fd_in != STDIN_FILENO)
-		close(cmd->fd_in);
-	if (cmd->fd_out != STDOUT_FILENO)
-		close(cmd->fd_out);
+	close_fd(cmd->fd_in, STDIN_FILENO);
+	close_fd(cmd->fd_out, STDOUT_FILENO);
 }

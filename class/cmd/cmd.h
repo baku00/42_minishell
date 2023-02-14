@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:50:12 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/03 00:29:05 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/13 02:00:23 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,9 @@ t_cmd	*check_error(t_cmd *cmd);
 void	*free_all_cmd(void *cmd);
 void	free_cmd(t_cmd	*cmd);
 void	*free_null_cmd(t_cmd *cmd);
+t_cmd	*cmd_dup(t_cmd *prev, t_cmd *cmd);
+t_cmd	*get_cmd_prev(t_cmd *cmd);
+t_cmd	*get_cmd_next(t_cmd *cmd);
+t_args	*get_cmd_args(t_cmd *cmd);
+int		get_cmd_redirection_id(t_cmd *cmd);
 #endif

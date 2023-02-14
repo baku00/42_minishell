@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:19:08 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/09 19:52:49 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/12 00:25:47 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,16 @@ void	exec_export(t_cmd *cmd, t_env *env)
 	t_env	*export;
 	t_info	*info_export;
 
-	if (!((t_args *) cmd->args)->next)
+	if (cmd->args && !((t_args *) cmd->args)->next)
 	{
 		info_export = create_info();
-		export = export_dup(NULL, env, &info_export);
+		export = export_dup(NULL, get_info_first(env), &info_export);
 		export = get_info_first(export);
 		print_export(export, cmd->fd_out);
-		// export = NULL;
+		free_info(info_export);
 	}
 	else
-		append_vars(&env, ((t_args *) get_info_first(cmd->args))->next);
+		append_vars(&env, cmd->args->next);
 	env = get_info_first(env);
 }
 

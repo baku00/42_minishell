@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 23:00:53 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/03 16:33:10 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:00:59 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,7 @@ int		is_redirection_output(int r_id);
 int		is_redirection_append(int r_id);
 int		is_redirection_out(int r_id);
 void	call_heredoc(t_cmd *cmd);
+int		create_redirection_pipe(t_cmd **configured, t_cmd **cmd);
+int		create_redirection(t_cmd **configured, t_cmd **cmd, int *success);
+void	append_more_args(t_args **args, t_args *append);
 #endif

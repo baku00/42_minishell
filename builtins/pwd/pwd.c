@@ -6,28 +6,36 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:41:21 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 00:53:39 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/11 15:45:36 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pwd.h"
 
-/**
- * @param paths	path_string
- * @param charp	char_path
- * @param pwd_type	OLDPWD || PWD
- */
-void	change_pwd(t_env **env, t_string *paths, char *charp, char *pwd_type)
+void	change_pwd(t_env **env, char *path)
 {
-	t_string	*front;
+	exec_change_pwd(env, path, PWD_TYPE);
+}
 
-	front = create_string(pwd_type);
-	paths = create_string(charp);
-	append_front_string(&paths, front);
-	append_var(env, paths);
-	free_string(paths);
-	free(charp);
-	free_string(front);
+void	change_old_pwd(t_env **env, char *old_path)
+{
+	exec_change_pwd(env, old_path, OLDPWD_TYPE);
+}
+
+void	exec_change_pwd(t_env **env, char *path, int type)
+{
+	t_string	*string_path;
+	t_string	*string_path_value;
+
+	if (type == PWD_TYPE)
+		string_path = create_string("PWD=");
+	else
+		string_path = create_string("OLDPWD=");
+	string_path_value = create_string(path);
+	append_string(&string_path, string_path_value);
+	append_var(env, string_path);
+	free_string(string_path);
+	free_string(string_path_value);
 }
 
 void	exec_pwd(int display, char **path, int fd)

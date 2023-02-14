@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 22:31:53 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/30 16:37:19 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/12 01:27:55 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	exec_unset(t_env **env, t_args *args)
 		if (!args->next)
 			break ;
 		args = args->next;
+		free_string(var_name);
+		var_name = NULL;
 	}
 	if (var_name)
 		free_string(var_name);

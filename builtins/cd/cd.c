@@ -6,33 +6,24 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:14:14 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/06 00:09:10 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/11 16:09:22 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cd.h"
 
-static void	check_path(t_args **path, t_env **env)
+void	exec_cd(t_args *path, t_env **env)
 {
-	if (!(*path))
-		*path = \
-		create_args(NULL, get_env_from_char_key(*env, "HOME", 0)->value);
-	else if (!(*path)->string)
-		(*path)->string = get_env_from_char_key(*env, "HOME", 0)->value;
-	else if (!get_string_length((*path)->string))
-		(*path)->string = get_env_from_char_key(*env, "HOME", 0)->value;
-}
-
-static void	cd_print_error(int access, t_string *path_string)
-{
-	if (access == IS_DIR)
-		printf("%s: Permission interdite\n", get_string(path_string));
-	else if (access == IS_FILE)
-		printf("%s: Est un fichier\n", get_string(path_string));
+	if (check_path(&path, env))
+	{
+		go_to_home(env);
+		free_args(path);
+	}
 	else
-		printf("%s: Aucun fichier ou dossier\n", get_string(path_string));
+		go_to_directory(path->string, env);
 }
 
+/*
 void	exec_cd(t_args *path, t_env **env)
 {
 	int			has_access;
@@ -40,7 +31,6 @@ void	exec_cd(t_args *path, t_env **env)
 	char		*char_path;
 	int			path_is_null;
 
-	(void)env;
 	path_is_null = !path;
 	*env = get_info_first(*env);
 	check_path(&path, env);
@@ -65,7 +55,7 @@ void	exec_cd(t_args *path, t_env **env)
 	if (path_is_null)
 		free_args(path);
 	free_string(path_string);
-}
+}*/
 
 // free_string(path_string);
 // path_string = create_string(char_path);

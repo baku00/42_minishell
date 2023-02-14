@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:49:58 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 00:06:18 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/11 23:36:31 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	make_info(t_cmd *cmd, t_info *info_cmd, t_info *info_args)
 	if (!cmd->next)
 		info_cmd->last = cmd;
 	info_cmd->length += 1;
-	make_info_args(cmd->args, info_args);
 	if (cmd->next)
 		make_info(cmd->next, info_cmd, info_args);
 }
+//make_info_args(cmd->args, info_args);

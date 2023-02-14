@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_manager.c                                       :+:      :+:    :+:   */
+/*   cmd_dup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 23:15:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/11 17:08:51 by my_name_         ###   ########.fr       */
+/*   Created: 2023/02/13 01:40:01 by my_name_          #+#    #+#             */
+/*   Updated: 2023/02/13 01:40:06 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "redirection.h"
+#include "cmd.h"
 
-void	execute_fd(t_cmd *cmd)
+t_cmd	*cmd_dup(t_cmd *prev, t_cmd *cmd)
 {
-	if (cmd->heredoc_file)
-	{
-		call_heredoc(cmd);
-		close(cmd->fd_in);
-		cmd->fd_in = open(get_string(cmd->heredoc_file), O_RDONLY);
-	}
-	if (cmd->fd_in != STDIN_FILENO)
-		dup2(cmd->fd_in, STDIN_FILENO);
-	if (cmd->fd_out != STDOUT_FILENO)
-		dup2(cmd->fd_out, STDOUT_FILENO);
-	close_cmd_fd(cmd);
-}
+	t_cmd	*dup;
 
-void	close_fd(int fd, int std)
-{
-	if (fd != std)
-		close(fd);
+	dup = init_cmd(prev);
+	if (!dup)
+		return (free_null_cmd(dup));
+	if (prev)
+		dup->fd_in = cmd->fd_in;
+	dup->bin = string_dup(cmd->bin);
+	dup->args = args_dup(NULL, cmd->args);
+	return (dup);
 }

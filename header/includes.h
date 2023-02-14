@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:27:45 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 22:46:14 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/12 16:21:25 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,5 @@
 # include "../builtins/builtins.h"
 # include "src/src.h"
 # include "../bin/binary.h"
+# include "../main_includes.h"
 #endif

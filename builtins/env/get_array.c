@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 20:53:16 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 23:07:05 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/10 02:49:52 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 char	**env_to_array(t_env *env)
 {
-	char	**array;
-	int		i;
+	char		**array;
+	int			i;
+	t_string	*entry;
 
 	env = get_info_first(env);
 	array = ft_calloc(sizeof(char *), get_info_length(env) + 1);
@@ -24,7 +25,9 @@ char	**env_to_array(t_env *env)
 	i = 0;
 	while (env)
 	{
-		array[i] = ft_strdup(get_string(get_entry(env)));
+		entry = get_entry(env);
+		array[i] = ft_strdup(get_string(entry));
+		free_string(entry);
 		i++;
 		if (env->next)
 			env = env->next;

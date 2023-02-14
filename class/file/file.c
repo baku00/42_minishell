@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:38:02 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/07 03:02:32 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/13 01:52:28 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ void	close_all_fd(t_cmd *cmd)
 		else
 			break ;
 	}
+}
+
+void	copy_fd_in_and_out(t_cmd **configured, t_cmd *cmd)
+{
+	if ((*configured)->fd_in == STDIN_FILENO)
+		(*configured)->fd_in = cmd->fd_in;
+	if ((*configured)->fd_out == STDOUT_FILENO)
+		(*configured)->fd_out = cmd->fd_out;
 }
 
 int	open_file(char *path, int flags, int access_level)
