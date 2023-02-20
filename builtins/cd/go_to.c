@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:51:49 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/11 15:57:13 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:03:38 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	go_to_directory(t_string *path, t_env **env)
 	has_access = check_access(get_string(path));
 	if (chdir(get_string(path)) == -1)
 		cd_print_error(has_access, path);
+	else
+		g_status = 0;
 	change_old_pwd(env, old_pwd);
 	exec_pwd(0, &new_pwd, 0);
 	change_pwd(env, new_pwd);

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 02:25:57 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/10 02:32:35 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/19 01:55:41 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	call_prompt(int key)
 	rl_on_new_line();
 	write(1, "\n", 1);
 	rl_redisplay();
+	g_status = 130;
 }
 
 void	pass(int key)

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 22:32:38 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/02 01:04:29 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:03:05 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ static int	replace(char **str, char *needed, char *handle, int i)
 		return (!!free_vars(&before, &after));
 	free((*str));
 	*str = join_all(before, handle, after);
+	free_vars(&before, &after);
 	if (!*str)
-		return (!!free_vars(&before, &after));
+		return (0);
 	return (ft_strlen(handle));
 }
 

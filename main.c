@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/13 23:18:43 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/17 00:17:19 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		use_signal();
-		minishell->line = prompt("Minishell: ");
+		minishell->line = prompt("Minishell2: ");
 		if (!minishell->line)
 			break ;
 		else if (get_string_length(minishell->line))
 		{
-			execute(minishell, minishell->line, &minishell->env);
+			execute(&minishell, minishell->line, &minishell->env);
 			reset_minishell(minishell);
 		}
 		free_string(minishell->line);

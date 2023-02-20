@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/13 23:18:17 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:05:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,30 +148,31 @@ void	debug_cmd(t_cmd *cmd)
 		debug_cmd(cmd->next);
 }
 
-void	execute(t_minishell *minishell, t_string *line, t_env **env)
+void	execute(t_minishell **mini, t_string *line, t_env **env)
 {
 	t_cmd		*cmd_error;
 	int			success;
 
+	(void) line;
 	success = 1;
-	minishell->cmd = create_cmd(NULL, line, 0, *env);
-	if (!minishell->cmd)
+	(*mini)->cmd = create_cmd(NULL, line, 0, *env);
+	if (!(*mini)->cmd)
 		return ;
-	make_info(minishell->cmd, \
-	get_minishell_info_cmd(minishell), get_minishell_info_cmd_args(minishell));
-	cmd_error = check_error(get_minishell_info_cmd(minishell)->first);
+	make_info((*mini)->cmd, \
+	get_minishell_info_cmd((*mini)), get_minishell_info_cmd_args((*mini)));
+	cmd_error = check_error(get_minishell_info_cmd((*mini))->first);
 	if (cmd_error)
 	{
 		print_error_redirection(cmd_error);
-		free_all_cmd(get_info_first(minishell->cmd));
-		minishell->cmd = NULL;
+		free_all_cmd(get_info_first((*mini)->cmd));
+		(*mini)->cmd = NULL;
 		return ;
 	}
-	minishell->configured = \
-	make_redirection(NULL, get_minishell_info_cmd(minishell)->first, &success);
-	if (success != 1 || !minishell->configured)
+	(*mini)->configured = \
+	make_redirection(NULL, get_minishell_info_cmd((*mini))->first, &success);
+	if (success != 1 || !(*mini)->configured)
 		return (print_redirection_error(success));
-	make_info(minishell->configured, get_minishell_info_configured(minishell), \
-	get_minishell_info_configured_args(minishell));
-	return (execute_cmd(minishell, minishell->configured, env));
+	make_info((*mini)->configured, get_minishell_info_configured((*mini)), \
+	get_minishell_info_configured_args((*mini)));
+	return (execute_cmd((*mini), (*mini)->configured, env));
 }

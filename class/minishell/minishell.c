@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:35 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/02 19:58:41 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:09:52 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	*reset_minishell(t_minishell *minishell)
 	minishell->cmd = NULL;
 	free_all_cmd(get_info_first(minishell->configured));
 	minishell->configured = NULL;
+	minishell->i = 0;
 	reset_info(cmd);
 	reset_info(cmd_args);
 	reset_info(configured);
@@ -63,6 +64,7 @@ t_minishell	*create_minishell(void)
 	minishell->cmd = NULL;
 	minishell->configured = NULL;
 	minishell->config = NULL;
+	minishell->i = 0;
 	minishell->infos = create_minishell_infos();
 	if (!minishell->infos)
 		return (free_minishell(minishell));

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 00:14:14 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/11 16:09:22 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:03:11 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	exec_cd(t_args *path, t_env **env)
 	{
 		go_to_home(env);
 		free_args(path);
+		g_status = 0;
 	}
 	else
 		go_to_directory(path->string, env);

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 18:27:02 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/12 02:00:23 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/17 00:37:14 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 static void	not_found(t_cmd *cmd)
 {
 	print_binary_not_found(cmd->bin);
-	while (cmd->prev)
-	{
-		while (((t_args *)cmd->args)->prev)
-			cmd->args = ((t_args *)cmd->args)->prev;
-		cmd = cmd->prev;
-	}
-	free_all_cmd(cmd);
 }
 
 void	exec_binary(char *path, t_cmd *cmd, t_env *env)

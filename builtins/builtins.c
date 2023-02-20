@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:00:20 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/11 16:09:07 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:06:04 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	exec_builtins(t_minishell *minishell, t_cmd *cmd, t_env **env)
 	fd = cmd->fd_out;
 	*env = get_info_first(*env);
 	builtin = is_builtins(cmd->bin);
-	(void) minishell;
 	if (builtin == ENV)
 		exec_env(cmd, *env);
 	else if (builtin == PWD)

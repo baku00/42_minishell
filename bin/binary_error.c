@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:51:08 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/12 02:03:31 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/19 01:57:00 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ void	print_binary_execution_error(t_string *bin)
 {
 	ft_putstr_fd(bin->value, STDERR_FILENO);
 	perror(": Erreur d'éxecution");
+	g_status = 1;
 }
 
 void	print_binary_not_permission(t_string *bin)
 {
 	ft_putstr_fd(bin->value, STDERR_FILENO);
 	ft_putendl_fd(": permission denied", STDERR_FILENO);
+	g_status = 126;
 }
 
 void	binary_error(char *path, t_cmd *cmd, char **args, char **env_vars)

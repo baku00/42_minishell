@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:03:52 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/13 23:11:07 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:20:16 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ static void	*free_to_first(t_cmd **configured)
 	{
 		(*configured) = (*configured)->prev;
 		free_cmd((*configured)->next);
+		(*configured)->next = NULL;
 	}
-	return (free_null_cmd((*configured)));
+	free_null_cmd(*configured);
+	*configured = NULL;
+	return (NULL);
 }
 
 t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
@@ -79,11 +82,11 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 
 	configured = cmd_dup(prev, cmd);
 	if (!configured)
-		return (free_null_cmd(configured));
+		return (NULL);
 	if (!is_redirection_pipe(cmd->redirection_id))
 	{
 		if (!create_redirection(&configured, &cmd, success))
-			return (free_null_cmd(configured));
+			return (NULL);
 		copy_fd_in_and_out(&configured, cmd);
 		if (cmd->prev && \
 		!is_redirection_pipe(get_cmd_prev(cmd)->redirection_id))

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 15:49:59 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 01:44:07 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:00:18 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	replace_all_variables(t_env *env, t_string **string)
 			tmp = get_value_env_from_key(env, var_name);
 			replace_variable_name(string, var_name, tmp);
 		}
+		free_string(tmp);
 	}
 }
 

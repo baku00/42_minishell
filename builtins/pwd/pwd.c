@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:41:21 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/11 15:45:36 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/19 01:58:17 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	exec_pwd(int display, char **path, int fd)
 	(void) path;
 	cwd = getcwd(buffer, 1024);
 	if (display)
+	{
 		ft_putendl_fd(cwd, fd);
+		g_status = 0;
+	}
 	else
 		*path = ft_strdup(cwd);
 }

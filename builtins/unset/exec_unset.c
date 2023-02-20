@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 22:31:53 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/12 01:27:55 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:01:14 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	exec_unset(t_env **env, t_args *args)
 		if (!equals_string(var_name, args->string))
 		{
 			print_invalid_params(args->string);
+			g_status = 1;
 			if (!args->next)
 				break ;
 			args = args->next;

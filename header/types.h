@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 16:18:32 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/29 16:53:54 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:46:49 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ typedef struct s_env
 	void			*prev;
 }	t_env;
 
+typedef struct s_parser
+{
+	int			i;
+	t_string	*line;
+}	t_parser;
+
 typedef struct s_config
 {
 	int	exit;
@@ -101,6 +107,7 @@ typedef struct s_minishell
 	t_config	*config;
 	t_infos		*infos;
 	t_string	*line;
+	int			i;
 }	t_minishell;
 
 void	args_free_all(t_args *args);

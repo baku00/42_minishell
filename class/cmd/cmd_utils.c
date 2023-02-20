@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_includes.h                                    :+:      :+:    :+:   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 16:20:38 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/17 00:17:32 by my_name_         ###   ########.fr       */
+/*   Created: 2023/02/16 23:25:32 by my_name_          #+#    #+#             */
+/*   Updated: 2023/02/16 23:25:40 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_INCLUDES_H
-# define MAIN_INCLUDES_H
-# include "header/includes.h"
+#include "cmd.h"
 
-void		execute(t_minishell **minishell, t_string *line, t_env **env);
-#endif
+int	redirection(t_cmd **cmd, t_string *line, int i)
+{
+	if (is_redirection(line->value[i], line->value[i + 1]))
+	{
+		(*cmd)->redirection_id = redirection_id(line->value[i], \
+		line->value[i + 1]);
+		return (1);
+	}
+	return (0);
+}

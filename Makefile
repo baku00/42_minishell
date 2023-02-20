@@ -33,6 +33,8 @@ SRCS = main.c \
 		class/minishell/minishell_infos.c \
 		class/minishell/minishell.c \
 		class/cmd/cmd.c \
+		class/cmd/init_cmd.c \
+		class/cmd/cmd_utils.c \
 		class/cmd/get_cmd.c \
 		class/cmd/free.c \
 		class/cmd/check_error.c \
