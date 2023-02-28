@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:27:45 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/22 22:39:10 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:25:20 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@
 # include <termios.h>
 # include <signal.h>
 # include <dirent.h>
+
+extern void	rl_replace_line (const char *text, int clear_undo);
 #endif
