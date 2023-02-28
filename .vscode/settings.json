@@ -24,6 +24,7 @@
 		"export.h": "c",
 		"file.h": "c",
 		"pwd.h": "c",
-		"cd.h": "c"
+		"cd.h": "c",
+		"type_traits": "c"
 	}
 }

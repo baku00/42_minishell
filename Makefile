@@ -40,6 +40,7 @@ SRCS = main.c \
 		class/cmd/check_error.c \
 		class/cmd/cmd_dup.c \
 		class/file/file.c \
+		class/file/clear_tmp.c \
 		class/info/info.c \
 		class/info/get_info.c \
 		class/info/make_info.c \
@@ -89,11 +90,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -fsanitize=address
 
-INCLUDES = -I. -lreadline
+INCLUDES = -I.
 
 ifeq ($(UNAME), Linux)
-	FLAGS += -fsanitize=leak
-	INCLUDES = -I. -L/usr/local/lib -I/usr/local/include -lreadline
+	CFLAGS += -fsanitize=leak
+	INCLUDES = -I. -L/usr/local/lib -I/usr/local/include
 endif
 
 %.o: %.c
@@ -102,7 +103,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) -lreadline -o $(NAME) 
 
 $(LIBFT):
 	@make -C libft

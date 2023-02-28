@@ -6,38 +6,11 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:35 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/23 22:32:04 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 03:13:44 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	clear_tmp_dir(void)
-{
-	DIR				*dir;
-	struct dirent	*directory;
-	t_string		*tmp_dir;
-	t_string		*file;
-
-	tmp_dir = create_string("/home/user/minishell/tmp/");
-	dir = opendir(tmp_dir->value);
-	if (!dir)
-		return ;
-	directory = readdir(dir);
-	file = create_string(directory->d_name);
-	append_front_string(&file, tmp_dir);
-	while (ft_strncmp(directory->d_name, "..", ft_strlen(directory->d_name)))
-	{
-		unlink(file->value);
-		directory = readdir(dir);
-		free_string(file);
-		file = create_string(directory->d_name);
-		append_front_string(&file, tmp_dir);
-	}
-	free_string(file);
-	free_string(tmp_dir);
-	closedir(dir);
-}
 
 void	*reset_minishell(t_minishell *minishell)
 {
