@@ -99,12 +99,12 @@ ifeq ($(UNAME), Linux)
 endif
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $(DEFINE) -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) $(COMPILATION_INCLUDES) $(DEFINE) -lreadline -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) $(COMPILATION_INCLUDES) -lreadline -o $(NAME) 
 
 $(LIBFT):
 	@make -C libft
