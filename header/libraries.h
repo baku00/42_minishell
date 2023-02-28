@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:27:45 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/16 22:46:17 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/22 22:39:10 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <signal.h>
+# include <dirent.h>
 #endif

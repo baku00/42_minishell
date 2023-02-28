@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 02:25:57 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/19 01:55:41 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/24 00:04:03 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@
  * 		Replace le contenu de la ligne par le content à l'index start
  * 
  * 	rl_on_new_line:
- * 		rewrite a prompt
+ * 		Écris un nouveau prompt mais sans l'afficher
  * 
  * rl_redisplay:
- * 		redisplay automaticly the prompt
+ *		Affiche le prompt
 */
 void	call_prompt(int key)
 {
 	(void)key;
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	write(1, "\n", 1);
 	rl_redisplay();
-	g_status = 130;
 }
 
 void	pass(int key)

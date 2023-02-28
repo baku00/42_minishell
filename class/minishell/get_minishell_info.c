@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:28:08 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/27 15:32:13 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:10:51 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_info	*get_minishell_info_env(t_minishell *minishell)
 	return (get_minishell_infos(minishell)->info_env);
 }
 
-t_info	*get_minishell_info_cmd(t_minishell *minishell)
+t_info	*get_minf_cmd(t_minishell *minishell)
 {
 	if (!minishell)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:03:52 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/17 01:20:16 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:18:01 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ int	redirect_fd(t_cmd **cmd)
 	else if ((*cmd)->redirection_id == REDIRECTION_INPUT)
 		(*cmd)->fd_in = open_file(file, O_RDONLY, -1);
 	else if ((*cmd)->redirection_id == REDIRECTION_HEREDOC)
-	{
-		(*cmd)->fd_in = open_file(file, O_RDWR | O_TRUNC | O_CREAT, 0777);
-		(*cmd)->heredoc_file = string_dup(next->bin);
-	}
+		(*cmd)->fd_in = execute_heredoc(next->bin);
 	else if ((*cmd)->redirection_id == REDIRECTION_PIPE)
 		redirect_pipe(cmd);
 	if ((*cmd)->fd_in < 0)
@@ -76,7 +73,7 @@ static void	*free_to_first(t_cmd **configured)
 	return (NULL);
 }
 
-t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
+t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success, int *fd)
 {
 	t_cmd	*configured;
 
@@ -85,7 +82,7 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 		return (NULL);
 	if (!is_redirection_pipe(cmd->redirection_id))
 	{
-		if (!create_redirection(&configured, &cmd, success))
+		if (!create_redirection(&configured, &cmd, success, fd))
 			return (NULL);
 		copy_fd_in_and_out(&configured, cmd);
 		if (cmd->prev && \
@@ -96,7 +93,7 @@ t_cmd	*make_redirection(t_cmd *prev, t_cmd *cmd, int *success)
 	{
 		if (!create_redirection_pipe(&configured, &cmd))
 			return (free_to_first(&configured));
-		configured->next = make_redirection(configured, cmd->next, success);
+		configured->next = make_redirection(configured, cmd->next, success, fd);
 		if (!configured->next)
 			return (free_to_first(&configured));
 	}

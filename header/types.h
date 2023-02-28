@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 16:18:32 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/20 20:46:49 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/23 21:57:02 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,19 @@ typedef struct s_args
 	void		*prev;
 }	t_args;
 
+typedef struct s_heredoc
+{
+	t_string	*file;
+	int			fd;
+	void		*prev;
+	void		*next;
+}	t_heredoc;
+
 typedef struct s_cmd
 {
 	t_string	*bin;
 	t_args		*args;
-	t_string	*heredoc_file;
+	t_heredoc	*heredoc;
 	int			pid;
 	int			redirection_id;
 	int			type;
@@ -107,6 +115,7 @@ typedef struct s_minishell
 	t_config	*config;
 	t_infos		*infos;
 	t_string	*line;
+	int			*fd;
 	int			i;
 }	t_minishell;
 

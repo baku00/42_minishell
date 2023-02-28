@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 01:44:43 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/20 16:11:45 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:08:16 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	create_redirection_pipe(t_cmd **configured, t_cmd **cmd)
 	return (1);
 }
 
-int	create_redirection(t_cmd **configured, t_cmd **cmd, int *success)
+int	create_redirection(t_cmd **configured, t_cmd **cmd, int *success, int *fd)
 {
 	int	prev_r_id;
 
@@ -40,17 +40,16 @@ int	create_redirection(t_cmd **configured, t_cmd **cmd, int *success)
 		*success = redirect_fd(cmd);
 		if (*success != 1)
 			return (!!free_null_cmd(*configured));
-		if (is_redirection_heredoc((*cmd)->redirection_id))
-		{
-			free_string((*configured)->heredoc_file);
-			(*configured)->heredoc_file = string_dup((*cmd)->heredoc_file);
-		}
 		if ((*cmd)->prev && prev_r_id != REDIRECTION_PIPE && (*cmd)->args)
 			append_more_args(&(*configured)->args, get_cmd_args((*cmd))->next);
+		fd[0] = ((*cmd)->fd_in == 0) * fd[0] + ((*cmd)->fd_in != 0) * fd[0];
+		fd[1] = ((*cmd)->fd_out == 0) * fd[1] + ((*cmd)->fd_out != 0) * fd[1];
 		if ((*cmd)->next)
 			*cmd = (*cmd)->next;
 		else
 			break ;
 	}
+	(*cmd)->fd_in = fd[0];
+	(*cmd)->fd_out = fd[1];
 	return (1);
 }

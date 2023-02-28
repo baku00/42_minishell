@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 01:45:48 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/17 01:05:07 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:10:41 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	debug_cmd(t_cmd *cmd)
 	t_args	*args;
 
 	printf("Bin: %s\n", get_string(cmd->bin));
-	printf("Heredoc file: %s\n", get_string(cmd->heredoc_file));
+	printf("Heredoc file: %s\n", get_string(((t_heredoc *)cmd->heredoc)->file));
 	args = cmd->args;
 	if (args)
 	{
@@ -159,8 +159,8 @@ void	execute(t_minishell **mini, t_string *line, t_env **env)
 	if (!(*mini)->cmd)
 		return ;
 	make_info((*mini)->cmd, \
-	get_minishell_info_cmd((*mini)), get_minishell_info_cmd_args((*mini)));
-	cmd_error = check_error(get_minishell_info_cmd((*mini))->first);
+	get_minf_cmd((*mini)), get_minishell_info_cmd_args((*mini)));
+	cmd_error = check_error(get_minf_cmd((*mini))->first);
 	if (cmd_error)
 	{
 		print_error_redirection(cmd_error);
@@ -169,7 +169,7 @@ void	execute(t_minishell **mini, t_string *line, t_env **env)
 		return ;
 	}
 	(*mini)->configured = \
-	make_redirection(NULL, get_minishell_info_cmd((*mini))->first, &success);
+	make_redirection(NULL, get_minf_cmd((*mini))->first, &success, (*mini)->fd);
 	if (success != 1 || !(*mini)->configured)
 		return (print_redirection_error(success));
 	make_info((*mini)->configured, get_minishell_info_configured((*mini)), \

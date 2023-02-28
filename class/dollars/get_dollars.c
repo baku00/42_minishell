@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:58:19 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/11 17:32:12 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/23 00:07:20 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_status(t_string **current_arg)
 	free(itoa);
 	append_string(current_arg, str_itoa);
 	free_string(str_itoa);
-	return (result);
+	return (!!result);
 }
 
 int	get_dollar(t_string *line, int i, t_string **current_arg, t_env *env)

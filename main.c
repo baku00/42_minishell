@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/17 00:17:19 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/23 21:57:38 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	init_main(int argc, char **argv, char **envp)
 	void_args(argc, argv, envp);
 }
 
-t_string	*prompt(char *display)
+t_string	*prompt(char *display, int save_history)
 {
 	char			*line;
 	t_string		*string;
@@ -36,7 +36,7 @@ t_string	*prompt(char *display)
 	attributes.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 	line = readline(display);
-	if (line && ft_strlen(line))
+	if (line && ft_strlen(line) && save_history)
 		add_history(line);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved);
 	string = create_string(line);
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		use_signal();
-		minishell->line = prompt("Minishell2: ");
+		minishell->line = prompt("Minishell: ", 1);
 		if (!minishell->line)
 			break ;
 		else if (get_string_length(minishell->line))
