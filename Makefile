@@ -90,9 +90,11 @@ CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -fsanitize=address
 
 INCLUDES = -I.
+COMPILATION_INCLUDES = -I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
 
 ifeq ($(UNAME), Linux)
 	CFLAGS += -fsanitize=leak
+	COMPILATION_INCLUDES = -L/usr/local/lib -I/usr/local/include
 endif
 
 %.o: %.c
@@ -101,7 +103,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) -L/usr/local/lib -I/usr/local/include -lreadline -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) $(COMPILATION_INCLUDES) -lreadline -o $(NAME) 
 
 $(LIBFT):
 	@make -C libft
