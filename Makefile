@@ -93,7 +93,6 @@ INCLUDES = -I.
 
 ifeq ($(UNAME), Linux)
 	CFLAGS += -fsanitize=leak
-	INCLUDES = -I. -L/usr/local/lib -I/usr/local/include
 endif
 
 %.o: %.c
@@ -102,7 +101,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) -lreadline -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) -L/usr/local/lib -I/usr/local/include -lreadline -o $(NAME) 
 
 $(LIBFT):
 	@make -C libft
