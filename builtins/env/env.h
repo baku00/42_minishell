@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 20:59:51 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/28 02:29:12 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:29:33 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void		*free_env(t_env *env);
 t_string	*get(char *envp, int i, int length);
 void		print_env(t_cmd *cmd, t_env *env);
 void		exec_env(t_cmd *cmd, t_env *env);
-void		sort_env(t_env **env, t_env *src, int last);
 t_env		*env_dup(t_env *env);
 void		replace_env_value(t_env **env, t_string *value);
 void		remove_env(t_env **env);

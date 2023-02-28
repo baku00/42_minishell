@@ -56,7 +56,6 @@ SRCS = main.c \
 		builtins/env/get_env_value.c \
 		builtins/env/print_env.c \
 		builtins/env/exec_env.c \
-		builtins/env/sort_env.c \
 		builtins/env/env_dup.c \
 		builtins/env/get_array.c \
 		builtins/env/replace.c \
