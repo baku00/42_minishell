@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 02:25:57 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/24 00:04:03 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 21:39:49 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	use_signal(void)
 	signal(EOF, pass);
 	signal(SIGINT, call_prompt);
 	signal(SIGQUIT, back_slash_signal);
+	signal(SIGTSTP, back_slash_signal);
 }
