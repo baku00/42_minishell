@@ -91,7 +91,7 @@ CFLAGS += -fsanitize=address
 
 INCLUDES = -I.
 COMPILATION_INCLUDES = -I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
-DEFINE = -D TMP_PATH=$(shell pwd)/tmp
+DEFINE = -D TMP_PATH='"$(shell pwd)/tmp"'
 
 ifeq ($(UNAME), Linux)
 	CFLAGS += -fsanitize=leak
