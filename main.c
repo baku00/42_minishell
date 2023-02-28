@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:15:34 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/23 21:57:38 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:56:20 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	*minishell;
 	t_info		*info;
 
+	printf("PATH_TMP: %s\n", TMP_MAX);
 	init_main(argc, argv, envp);
 	minishell = create_minishell();
 	if (!minishell)
