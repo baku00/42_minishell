@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 21:01:44 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/24 19:46:22 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:51:31 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_string	*get_path_name(t_string *file)
 {
 	t_string	*path;
 
-	path = create_string("/home/user/minishell/tmp/");
+	path = create_string(TMP_PATH);
 	if (!path)
 		return (NULL);
 	append_string(&path, file);

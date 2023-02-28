@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 03:13:49 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/28 20:27:27 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:51:19 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	clear_tmp_dir(void)
 	t_string		*tmp_dir;
 	t_string		*file;
 
-	tmp_dir = create_string("/home/user/minishell/tmp/");
+	tmp_dir = create_string(TMP_PATH);
 	dir = opendir(tmp_dir->value);
 	if (!dir)
 		return ;

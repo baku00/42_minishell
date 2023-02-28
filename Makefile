@@ -91,6 +91,7 @@ CFLAGS += -fsanitize=address
 
 INCLUDES = -I.
 COMPILATION_INCLUDES = -I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
+DEFINE = -D TMP_PATH=$(shell pwd)/tmp
 
 ifeq ($(UNAME), Linux)
 	CFLAGS += -fsanitize=leak
@@ -103,7 +104,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) $(COMPILATION_INCLUDES) -lreadline -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) $(COMPILATION_INCLUDES) $(DEFINE) -lreadline -o $(NAME) 
 
 $(LIBFT):
 	@make -C libft

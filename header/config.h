@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:05:56 by my_name_          #+#    #+#             */
-/*   Updated: 2023/01/26 17:00:31 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:51:58 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,7 @@
 # define ERROR_NOT_CLOSE_QUOTE -1
 # define ERROR_MEMORY -2
 # define SUCCESS 1
+# ifndef TMP_PATH
+#  define TMP_PATH "/"
+# endif
 #endif
