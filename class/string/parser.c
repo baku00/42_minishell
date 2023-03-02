@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:56:25 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/23 22:44:02 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/03/02 20:23:07 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*parse_error(int parse_string)
 	if (parse_string == ERROR_NOT_CLOSE_QUOTE)
 	{
 		ft_putstr_fd("Guillemet ou apostrophe non fermé\n", STDERR_FILENO);
-		g_status = 1;
+		g_status = 2;
 	}
 	return (NULL);
 }

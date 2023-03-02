@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 03:13:49 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/28 20:51:19 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/03/02 20:16:28 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,48 @@ int	is_valid_filename(char *filename)
 	return (1);
 }
 
+void	create_tmp_path_file(t_string **file, char *name, t_string *tmp_dir)
+{
+	t_string	*path;
+
+	*file = create_string(name);
+	path = string_dup(tmp_dir);
+	append_front_string(file, path);
+	free_string(path);
+}
+
+int	clear_directory(DIR *dir, t_string *tmp_dir)
+{
+	struct dirent	*current_file;
+	t_string		*file;
+
+	current_file = readdir(dir);
+	if (!current_file)
+		return (0);
+	create_tmp_path_file(&file, current_file->d_name, tmp_dir);
+	while (current_file)
+	{
+		if (is_valid_filename(current_file->d_name))
+			unlink(file->value);
+		current_file = readdir(dir);
+		if (!current_file)
+			break ;
+		free_string(file);
+		file = NULL;
+		create_tmp_path_file(&file, current_file->d_name, tmp_dir);
+	}
+	free_string(file);
+	return (0);
+}
+
 void	clear_tmp_dir(void)
 {
 	DIR				*dir;
-	struct dirent	*directory;
 	t_string		*tmp_dir;
-	t_string		*file;
 
 	tmp_dir = create_string(TMP_PATH);
 	dir = opendir(tmp_dir->value);
-	if (!dir)
-		return ;
-	directory = readdir(dir);
-	if (!directory)
-		return (free(tmp_dir));
-	file = create_string(directory->d_name);
-	append_front_string(&file, tmp_dir);
-	while (directory)
-	{
-		if (is_valid_filename(directory->d_name))
-			unlink(file->value);
-		directory = readdir(dir);
-		if (!directory)
-			break ;
-		free_string(file);
-		file = create_string(directory->d_name);
-		append_front_string(&file, tmp_dir);
-	}
-	free_string(file);
+	clear_directory(dir, tmp_dir);
 	free_string(tmp_dir);
 	closedir(dir);
 }
