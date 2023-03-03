@@ -14,10 +14,14 @@
 
 void	exec_cd(t_args *path, t_env **env)
 {
-	if (check_path(&path, env))
+	if (path && path->next)
+	{
+		ft_putendl_fd("Trop d'argument pour la commande cd", STDERR_FILENO);
+		g_status = 1;
+	}
+	else if (!path && check_path(&path, env))
 	{
 		go_to_home(env);
-		free_args(path);
 		g_status = 0;
 	}
 	else

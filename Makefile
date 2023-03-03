@@ -90,7 +90,7 @@ CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -fsanitize=address
 
 INCLUDES = -I.
-COMPILATION_INCLUDES = -I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
+COMPILATION_INCLUDES = -I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib
 DEFINE = -D TMP_PATH='"$(shell pwd)/tmp/"'
 
 ifeq ($(UNAME), Linux)

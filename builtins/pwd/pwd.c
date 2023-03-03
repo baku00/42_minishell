@@ -51,5 +51,10 @@ void	exec_pwd(int display, char **path, int fd)
 		g_status = 0;
 	}
 	else
-		*path = ft_strdup(cwd);
+	{
+		if (cwd)
+			*path = ft_strdup(cwd);
+		else
+			*path = NULL;
+	}
 }

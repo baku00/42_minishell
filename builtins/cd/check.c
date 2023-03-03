@@ -17,6 +17,8 @@ int	check_path(t_args **path, t_env **env)
 	t_env	*home;
 
 	home = get_env_from_char_key(*env, "HOME", 0);
+	if (!home)
+		return (1);
 	if (!(*path))
 	{
 		*path = create_args(NULL, home->value);

@@ -75,7 +75,7 @@ void	exec_builtins(t_minishell *minishell, t_cmd *cmd, t_env **env)
 		exec_cd(((t_args *)cmd->args)->next, env);
 	else if (builtin == ECHO_CMD)
 		exec_echo(((t_args *)cmd->args)->next, fd);
-	else if (builtin == EXIT)
+	if (builtin == EXIT || !*env)
 		exec_exit(minishell, ((t_args *)cmd->args)->next, fd);
 	close_fd(cmd->fd_in, STDIN_FILENO);
 	close_fd(cmd->fd_out, STDOUT_FILENO);

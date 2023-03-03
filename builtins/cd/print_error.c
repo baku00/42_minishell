@@ -15,7 +15,11 @@
 void	cd_print_error(int access, t_string *path_string)
 {
 	if (access == IS_DIR)
+	{
 		printf("%s: Permission interdite\n", get_string(path_string));
+		g_status = 126;
+		return ;
+	}
 	else if (access == IS_FILE)
 		printf("%s: Est un fichier\n", get_string(path_string));
 	else

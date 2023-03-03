@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	free_configured(t_cmd *configured)
+{
+	if (configured && get_info_first(configured))
+		free_all_cmd(get_info_first(configured));
+}
+
 void	*reset_minishell(t_minishell *minishell)
 {
 	t_info	*cmd;

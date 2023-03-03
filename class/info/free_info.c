@@ -21,6 +21,8 @@ void	free_info(t_info *info)
 
 void	reset_info(t_info *info)
 {
+	if (!info)
+		return ;
 	info->first = NULL;
 	info->last = NULL;
 	info->length = 0;
