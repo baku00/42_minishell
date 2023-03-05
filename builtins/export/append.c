@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 04:42:51 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/12 01:29:47 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/03/05 02:37:01 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_string	*extract_value(t_string *string, t_string *key)
 
 void	append_or_replace(t_env *var, t_env **e, t_string *k, t_string *v)
 {
+	*e = get_info_first(*e);
 	if (!var)
 		append_env_last(e, init_env(k, v));
 	else

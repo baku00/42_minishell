@@ -104,6 +104,8 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
+	@rm -rf tmp
+	@mkdir tmp
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLUDES) $(COMPILATION_INCLUDES) -lreadline -o $(NAME) 
 
 $(LIBFT):

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 03:13:49 by my_name_          #+#    #+#             */
-/*   Updated: 2023/03/02 20:16:28 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/03/04 02:03:55 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ void	clear_tmp_dir(void)
 
 	tmp_dir = create_string(TMP_PATH);
 	dir = opendir(tmp_dir->value);
+	if (!dir)
+	{
+		free_string(tmp_dir);
+		return ;
+	}
 	clear_directory(dir, tmp_dir);
 	free_string(tmp_dir);
 	closedir(dir);
