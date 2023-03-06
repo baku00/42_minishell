@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:50:05 by my_name_          #+#    #+#             */
-/*   Updated: 2023/02/17 00:15:11 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/03/06 00:10:22 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ void	append_current_arg(t_cmd **cmd, t_string *args)
 	if (args->length)
 	{
 		if (!(*cmd)->bin)
-		{
-			string_go_to_lower(&args);
 			(*cmd)->bin = string_dup(args);
-		}
 		append_args(&(*cmd)->args, args);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 18:27:02 by my_name_          #+#    #+#             */
-/*   Updated: 2023/03/05 23:05:11 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/03/06 00:12:42 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	exec_bin(t_cmd *cmd, t_env **env)
 	execute_fd(cmd);
 	if (cmd->bin)
 	{
+		string_go_to_lower(&cmd->bin);
 		path = get_bin_path(get_string(cmd->bin), *env);
 		if (!path)
 			not_found(cmd);

@@ -6,7 +6,7 @@
 /*   By: my_name_ <my_name_@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:13:13 by my_name_          #+#    #+#             */
-/*   Updated: 2023/03/02 20:33:52 by my_name_         ###   ########.fr       */
+/*   Updated: 2023/03/06 00:31:45 by my_name_         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ void	print_redirection_error(int error)
 {
 	ft_putstr_fd("Erreur de redirection", STDERR_FILENO);
 	if (error == IS_DIR)
-		ft_putendl_fd(": Le fichier est un dossier", STDERR_FILENO);
+		ft_putstr_fd(": Le fichier est un dossier", STDERR_FILENO);
 	else if (error == REDIRECTION_ERROR)
 	{
 		ft_putstr_fd(": Une erreur est survenue", STDERR_FILENO);
-		ft_putendl_fd(" lors de l'ouverture du fichier", STDERR_FILENO);
+		ft_putstr_fd(" lors de l'ouverture du fichier", STDERR_FILENO);
 	}
+	else if (error == NOT_EXIST)
+		ft_putstr_fd(": Le fichier n'existe pas", STDERR_FILENO);
 	else if (error == PREMISSION_NOT_FOUND)
 		ft_putstr_fd(": permission non accorde", STDERR_FILENO);
 	ft_putendl_fd("", STDERR_FILENO);
