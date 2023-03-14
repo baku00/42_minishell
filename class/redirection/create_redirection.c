@@ -27,6 +27,14 @@ int	create_redirection_pipe(t_cmd **configured, t_cmd **cmd)
 	return (1);
 }
 
+void	copy_fd(int **fd, t_cmd *cmd)
+{
+	if (cmd->fd_in != 0)
+		(*fd)[0] = cmd->fd_in;
+	if (cmd->fd_out != 1)
+		(*fd)[1] = cmd->fd_out;
+}
+
 int	create_redirection(t_cmd **configured, t_cmd **cmd, int *success, int *fd)
 {
 	int	prev_r_id;
@@ -42,8 +50,7 @@ int	create_redirection(t_cmd **configured, t_cmd **cmd, int *success, int *fd)
 			return (!!free_null_cmd(*configured));
 		if ((*cmd)->prev && prev_r_id != REDIRECTION_PIPE && (*cmd)->args)
 			append_more_args(&(*configured)->args, get_cmd_args((*cmd))->next);
-		fd[0] = ((*cmd)->fd_in == 0) * fd[0] + ((*cmd)->fd_in != 0) * fd[0];
-		fd[1] = ((*cmd)->fd_out == 0) * fd[1] + ((*cmd)->fd_out != 0) * fd[1];
+		copy_fd(&fd, *cmd);
 		if ((*cmd)->next)
 			*cmd = (*cmd)->next;
 		else

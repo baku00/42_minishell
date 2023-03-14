@@ -72,6 +72,8 @@ int	open_file(char *path, int flags, int access_level)
 		g_status = 126;
 		return (PREMISSION_NOT_FOUND);
 	}
+	if (flags == O_RDONLY && access(path, F_OK))
+    	return (NOT_EXIST);
 	if (has_access != IS_FILE && has_access != IS_NOTHING)
 		return (has_access);
 	if (access_level != -1)

@@ -17,8 +17,6 @@ void	print_env(t_cmd *cmd, t_env *env)
 	int	fd;
 
 	fd = cmd->fd_out;
-	if (cmd->next)
-		fd = STDIN_FILENO;
 	ft_putstr_fd(get_string(env->key), fd);
 	if (env->has_value)
 	{

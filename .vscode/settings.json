@@ -25,6 +25,7 @@
 		"file.h": "c",
 		"pwd.h": "c",
 		"cd.h": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"env.h": "c"
 	}
 }

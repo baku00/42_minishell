@@ -38,8 +38,6 @@ int	check_access(char *path)
 		return (IS_DIR);
 	else if (S_ISREG(inf.st_mode))
 		return (IS_FILE);
-	else if (access(path, F_OK) && is_tmp_file(path))
-		return (NOT_EXIST);
 	return (IS_NOTHING);
 }
 
